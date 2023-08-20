@@ -1,12 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Routes, Route } from 'react-router-dom'
+import MainPage from './components/user'
 import './App.css'
 
 function App() {
   return (
     <>
-    <p>Hello Word</p>
+    <Routes>
+      <Route path="/voting_app" element={<MainPage />} />
+    </Routes>
     </>
   )
 }
