@@ -3,3 +3,9 @@
   margin: 10rem auto;
   font-size: 1rem;
 }
+
+.error__message {
+  font-size: .9rem;
+  padding: 0 0.7rem;
+  margin: 0;
+}
