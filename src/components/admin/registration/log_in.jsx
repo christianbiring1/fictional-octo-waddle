@@ -72,6 +72,7 @@ const AdminLogin = () => {
           autoFocus
         />
       </div>
+        {allErrors.Email && <div className="text-danger error__message">{allErrors.Email}</div>}
     <div className="mb-3">
       <label htmlFor="Password" className="form-label">Password</label>
       <input
@@ -83,6 +84,7 @@ const AdminLogin = () => {
         name="Password"
       />
     </div>
+        {allErrors.Password && <div className="text-danger error__message">{allErrors.Password}</div>}
     <div className="mb-3 form-check">
       <input
         type="checkbox"
