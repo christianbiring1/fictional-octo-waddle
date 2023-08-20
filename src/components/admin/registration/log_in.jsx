@@ -1,7 +1,7 @@
 const Login = () => {
   return (
     <div>
-      This is th Login
+      This is the user login
     </div>
   );
 }
