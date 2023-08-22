@@ -1,0 +1,18 @@
+candidate = {
+  name: '',
+  position: '',
+  political_party: ''
+}
+
+Admin can:
+
+- Create an election (whatever).   - Election: name(eg: class representative)
+- create position: Assign the position's name to the created election.
+
+- create candidate:
+:Assign him to a specific position, political_party, name
+
+
+-Electors: will be listed in the db
+
+Admin will create electors, and assign them to a specific election.
