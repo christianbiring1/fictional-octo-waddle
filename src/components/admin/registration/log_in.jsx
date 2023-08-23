@@ -50,7 +50,7 @@ const AdminLogin = () => {
     // Call the Server
 
     console.log("Form Submitted!");
-    // window.location = '/'
+    window.location = '/elections'
   }
 
 
@@ -59,7 +59,7 @@ const AdminLogin = () => {
 
   return (
     <div className="user_login">
-      <form onSubmit={handleSubmit}></form>
+      <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="Email" className="form-label">Email address</label>
         <input
@@ -94,6 +94,7 @@ const AdminLogin = () => {
       <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
     </div>
     <button type="submit" className="btn btn-primary">Login</button>
+    </form>
     </div>
   )
 }

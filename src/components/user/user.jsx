@@ -1,12 +1,13 @@
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
+import './user.css'
 
 const MainPage = () => {
   return (
-    <div>
+    <div className='user_container'>
       <AccessAlarmIcon />
       <ThreeDRotation />
-      THis is the main user page
+      This is the main user page
     </div>
   );
 }
