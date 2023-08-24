@@ -5,3 +5,13 @@ body {
   box-sizing: border-box;
   font-size: 62.5%;
 }
+
+a {
+  text-decoration: none;
+  color: #000;
+  transition: .195s;
+}
+
+a:hover {
+  color: blue;
+}

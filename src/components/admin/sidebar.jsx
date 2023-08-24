@@ -1,9 +1,12 @@
 import GroupsIcon from '@mui/icons-material/Groups';
-import BallotIcon from '@mui/icons-material/Ballot';
+import RuleIcon from '@mui/icons-material/Rule';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import HelpIcon from '@mui/icons-material/Help';
 import { NavLink } from "react-router-dom";
-import './sidebar.css'
+import './sidebar.css';
 
 const SideBar = () => {
 
@@ -16,7 +19,7 @@ const SideBar = () => {
     {
       path: '/elections',
       label: 'Elections',
-      icon: <BallotIcon />
+      icon: <RuleIcon />
     },
     {
       path: '/candidates',
@@ -26,12 +29,17 @@ const SideBar = () => {
     {
       path: '/electors',
       label: 'Electors',
-      icon: <GroupsIcon />
+      icon: <LocalLibraryIcon />
     },
     {
       path: '/results',
       label: 'Results',
-      icon: <GroupsIcon />
+      icon: <CheckCircleOutlineIcon />
+    },
+    {
+      path: '/guidelines',
+      label: 'Guidelines',
+      icon: <HelpIcon />
     },
     {
       path: '/admin_login',

@@ -1,5 +1,23 @@
 .elections__container {
   font-size: 1rem;
   width: 60%;
-  margin: 1rem auto;
+  margin: 0 auto;
+  /* position: relative; */
+}
+
+.create__form {
+  background-color: rgba(0, 0, 0, .7);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.create__form form {
+  width: 50%;
+  margin: 5rem auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
 }
