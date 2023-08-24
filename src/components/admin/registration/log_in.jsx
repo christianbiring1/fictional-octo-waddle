@@ -50,7 +50,7 @@ const AdminLogin = () => {
     // Call the Server
 
     console.log("Form Submitted!");
-    window.location = '/elections'
+    window.location = '/'
   }
 
 

@@ -48,7 +48,7 @@ const UserLogin = () => {
 
     // Call the server
     console.log('Form submited!');
-    window.location = '/';
+    window.location = '/user';
   };
 
   return (
