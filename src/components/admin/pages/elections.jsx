@@ -1,52 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './styles/elections.css';
 
 
 const Elections = () => {
 
+  const [createOpen, setCreateOpen] = useState(false);
+
+  const ref = useRef();
+
+  useEffect(() => {
+    const handler = (event) => {
+      if(createOpen && ref.current && !ref.current.contains(event.target)) {
+        setCreateOpen(false)
+      }
+    };
+    document.addEventListener("mousedown", handler);
+  }, [createOpen])
+
   const [elections, setElections] = useState([
     {
       id: 1,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
+      name: 'Presidential',
+      date: '12/03/2020'
     },
     {
       id: 2,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
+      name: 'Class representative',
+      date: '2023/12/03'
     },
     {
       id: 3,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
-    },
-    {
-      id: 4,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
-    },
-    {
-      id: 5,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
-    },
-    {
-      id: 6,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
-    },
-    {
-      id: 7,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
-    },
-    {
-      id: 8,
-      name: 'Whatever',
-      date: '2023/ 12/ 03'
+      name: 'College Deputy',
+      date: '2023/12/03'
     }
   ])
-  const [createOpen, setCreateOpen] = useState(false);
 
   const handleCreateOpen = () => {
     setCreateOpen(!createOpen)
@@ -57,13 +44,26 @@ const Elections = () => {
     setElections(newElections);
   };
 
-  // if(!elections.length) return
+
+  // if(!elections.length) return(
+  //   <div className="elections__container">
+  //     <h1>Elections</h1>
+  //     <div className="create_election">
+  //       <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Create New Election</button>
+  //     </div>
+  //     <div className='no_election'>
+  //       <h4 className='fw-lighter'>There is no available election for now</h4>
+  //     </div>
+  //   </div>
+  // )
+
+
   return (
     <div className="elections__container">
+      <h1>Elections</h1>
       <div className="create_election">
-      </div>
-      <h1>Elections page</h1>
         <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Create New Election</button>
+      </div>
       <table className="table">
         <thead>
           <tr>
@@ -91,7 +91,7 @@ const Elections = () => {
       {
         createOpen && 
       <div className="create__form">
-        <form action="">
+        <form action="" ref={ref}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">Election Name</label>
             <input type="text" className="form-control" id='name'/>
