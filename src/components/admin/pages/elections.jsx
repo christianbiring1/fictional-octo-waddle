@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './styles/elections.css';
+import { useOnClickOutside } from '../../common/useonclickoutside';
 
 
 const Elections = () => {
@@ -8,14 +9,20 @@ const Elections = () => {
 
   const ref = useRef();
 
-  useEffect(() => {
-    const handler = (event) => {
-      if(createOpen && ref.current && !ref.current.contains(event.target)) {
-        setCreateOpen(false)
-      }
-    };
-    document.addEventListener("mousedown", handler);
-  }, [createOpen])
+  useOnClickOutside(ref, createOpen, () => setCreateOpen(false))
+
+  // useEffect(() => {
+  //   const handler = (event) => {
+  //     if(createOpen && ref.current && !ref.current.contains(event.target)) {
+  //       setCreateOpen(false)
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handler);
+  //   return () => {
+    
+  //     document.removeEventListener("mousedown", handler);
+  //   };
+  // }, [createOpen])
 
   const [elections, setElections] = useState([
     {
