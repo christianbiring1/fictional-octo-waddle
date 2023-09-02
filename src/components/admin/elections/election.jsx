@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import PropTypes from 'prop-types';
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { getElections } from '../../services/electionService';
 
@@ -24,7 +25,7 @@ const Election = (props) => {
   }
 
    const handleDelete = (election) => {
-    const newElections = elections.filter((m) => m.id !== election.id);
+    const newElections = elections.filter((m) => m._id !== election._id);
     setElections(newElections);
   };
   return (
@@ -66,8 +67,8 @@ const Election = (props) => {
       <div className="create__form">
         <form action="" ref={ref}>
           <div className="mb-3">
-            <label htmlFor="name" className="form-label">Election Name</label>
-            <input type="text" className="form-control" id='name'/>
+            <label htmlFor="election_name" className="form-label">Election Name</label>
+            <input type="text" className="form-control" id='election_name'/>
           </div>
           <div className="mb-3">
             <label htmlFor="date" className="form-label">Date</label>
@@ -81,4 +82,7 @@ const Election = (props) => {
   );
 }
  
+Election.propTypes = {
+  capitalize: PropTypes.func.isRequired
+}
 export default Election;

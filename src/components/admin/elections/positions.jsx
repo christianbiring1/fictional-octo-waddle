@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
+import PropTypes from 'prop-types';
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { getPositions } from "../../services/electionService";
 
 
-const Position = (props) => {
-  const { capitalize } = props;
+const Position = ({capitalize}) => {
 
   const [positions, setPositions] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
@@ -22,7 +22,7 @@ const Position = (props) => {
   }, []);
 
    const handleDelete = (position) => {
-    const newPositions = positions.filter((m) => m.id !== position.id);
+    const newPositions = positions.filter((m) => m._id !== position._id);
     setPositions(newPositions);
   };
 
@@ -66,8 +66,8 @@ const Position = (props) => {
       <div className="create__form">
         <form action="" ref={ref}>
           <div className="mb-3">
-            <label htmlFor="name" className="form-label">Position Name</label>
-            <input type="text" className="form-control" id='name'/>
+            <label htmlFor="position" className="form-label">Position Name</label>
+            <input type="text" className="form-control" id='position'/>
           </div>
           <button type="submit" className="btn btn-primary btn-sm">Submit</button>
         </form>
@@ -75,6 +75,10 @@ const Position = (props) => {
       }
     </div>
   );
+}
+
+Position.propTypes = {
+  capitalize: PropTypes.func.isRequired
 }
  
 export default Position;
