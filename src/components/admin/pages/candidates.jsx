@@ -43,7 +43,7 @@ const Candidates = () => {
       await deleteCandidate(person._id);
       toast.success('candidate deleted sucessfully.');
     } catch (error) {
-      if(error.response && error. response.status === 404 )
+      if(error.response && error.response.status === 404 )
       toast.error('This election has already been deleted.');
 
       setCandidates(originalCandidates);
