@@ -5,6 +5,12 @@
   /* position: relative; */
 }
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+
 .create__form {
   background-color: rgba(0, 0, 0, .7);
   position: absolute;
@@ -26,4 +32,13 @@
   text-align: center;
   width: 100%;
   margin: 2rem auto;
+}
+
+@media  screen and (min-width: 930px) {
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 }
