@@ -1,46 +1,25 @@
-import { useRef, useState } from 'react';
-import './styles/elections.css';
+import { useEffect, useRef, useState } from 'react';
+import { getElections } from '../../services/electionService';
 import { useOnClickOutside } from '../../common/useonclickoutside';
+import './styles/elections.css';
 
 
 const Elections = () => {
 
+  const [elections, setElections] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
-
   const ref = useRef();
 
-  useOnClickOutside(ref, createOpen, () => setCreateOpen(false))
+  useEffect(() => {
 
-  // useEffect(() => {
-  //   const handler = (event) => {
-  //     if(createOpen && ref.current && !ref.current.contains(event.target)) {
-  //       setCreateOpen(false)
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handler);
-  //   return () => {
-    
-  //     document.removeEventListener("mousedown", handler);
-  //   };
-  // }, [createOpen])
-
-  const [elections, setElections] = useState([
-    {
-      id: 1,
-      name: 'Presidential',
-      date: '12/03/2020'
-    },
-    {
-      id: 2,
-      name: 'Class representative',
-      date: '2023/12/03'
-    },
-    {
-      id: 3,
-      name: 'College Deputy',
-      date: '2023/12/03'
+    async function fetchData() {
+      const { data } = await getElections();
+      setElections(data);
     }
-  ])
+    fetchData();
+  }, [])
+
+  useOnClickOutside(ref, createOpen, () => setCreateOpen(false))
 
   const handleCreateOpen = () => {
     setCreateOpen(!createOpen)
@@ -63,6 +42,8 @@ const Elections = () => {
   //     </div>
   //   </div>
   // )
+  const capitalize = (str) => 
+    str.charAt(0).toUpperCase() + str.slice(1);
 
 
   return (
@@ -82,9 +63,9 @@ const Elections = () => {
         </thead>
         <tbody>
           {elections.map((item, index) => (
-            <tr key={item.id}>
+            <tr key={item._id}>
               <td scope="row">{index + 1}</td>
-              <td scope="row">{item.name}</td>
+              <td scope="row">{capitalize(item.name)}</td>
               <td scope="row">{item.date}</td>
               <td scope="row">
                 <button onClick={() => handleDelete(item)} className="btn btn-danger btn-sm">
