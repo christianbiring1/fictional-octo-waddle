@@ -11,7 +11,7 @@ import './App.css'
 function App() {
   return (
     <>
-    <ToastContainer />
+    <ToastContainer newestOnTop={false} />
     <Routes>
       <Route path='*' element={<Admin />} />
       <Route path="/admin_login" element={<Login />} />

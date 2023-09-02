@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from 'prop-types';
+import { toast } from "react-toastify";
 import { useOnClickOutside } from '../../common/useonclickoutside';
-import { getElections } from '../../services/electionService';
+import { getElections, deleteElection } from '../../services/electionService';
 
 const Election = (props) => {
   const { capitalize } = props;
@@ -24,10 +25,25 @@ const Election = (props) => {
     setCreateOpen(!createOpen)
   }
 
-   const handleDelete = (election) => {
-    const newElections = elections.filter((m) => m._id !== election._id);
+   const handleDelete = async (election) => {
+    const originalElections = elections;
+    const newElections = originalElections.filter((e) => e._id !== election._id);
     setElections(newElections);
+
+    try {
+      await deleteElection(election._id);
+      toast.success('Election deleted successfuly', {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      if(error.response && error.response.status === 404 )
+      toast.error('This election has already been deleted.');
+
+      setElections(originalElections);
+    }
   };
+
+
   return (
     <div>
       <button className='btn btn-primary btn-sm mb-4 mt-2 add'

@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from 'prop-types';
+import {toast} from 'react-toastify';
 import { useOnClickOutside } from '../../common/useonclickoutside';
-import { getPositions } from "../../services/electionService";
+import { getPositions, deletePosistion } from "../../services/electionService";
+import { Delete } from "@mui/icons-material";
 
 
 const Position = ({capitalize}) => {
@@ -21,14 +23,26 @@ const Position = ({capitalize}) => {
     fetchData();
   }, []);
 
-   const handleDelete = (position) => {
-    const newPositions = positions.filter((m) => m._id !== position._id);
-    setPositions(newPositions);
-  };
-
   const handleCreateOpen = () => {
     setCreateOpen(!createOpen)
   }
+
+   const handleDelete = async (position) => {
+    const originalPositions = positions;
+    const newPositions = originalPositions.filter((p) => p._id !== position._id);
+    setPositions(newPositions);
+
+    try {
+      await deletePosistion(position._id);
+      toast.success('Position deleted successfuly', {
+        autoClose: 1000,
+      });
+    } catch (error) {
+      if(error.response && error.response.status === 404)
+      toast.error('This election has already been deleted.');
+      setPositions(originalPositions);
+    }
+  };
 
 
   return (
@@ -53,9 +67,7 @@ const Position = ({capitalize}) => {
               <td scope="row">{index + 1}</td>
               <td scope="row">{capitalize(item.name)}</td>
               <td scope="row">
-                <button onClick={() => handleDelete(item)} className="btn btn-danger btn-sm">
-                  Delete
-                </button>
+                <Delete style={{cursor: 'pointer', color: '#FF6A74'}} onClick={() => handleDelete(item)}/>
               </td>
             </tr>
           ))}

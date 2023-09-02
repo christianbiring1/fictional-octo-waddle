@@ -1,4 +1,3 @@
-// import { useRef, useState } from 'react';
 import Election from '../elections/election';
 import Position from '../elections/positions';
 import './styles/elections.css';
