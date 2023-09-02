@@ -32,9 +32,7 @@ const Election = (props) => {
 
     try {
       await deleteElection(election._id);
-      toast.success('Election deleted successfuly', {
-        autoClose: 1000,
-      });
+      toast.success('Election deleted successfuly');
     } catch (error) {
       if(error.response && error.response.status === 404 )
       toast.error('This election has already been deleted.');

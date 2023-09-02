@@ -1,52 +1,57 @@
-import { useRef, useState } from "react";
-import logo from '../../../assets/react.svg';
-import male from '../../../assets/boy.svg';
-import female from '../../../assets/female.svg';
-
-import './styles/elections.css';
+import { useEffect, useRef, useState } from "react";
+import { toast } from 'react-toastify';
+// import logo from '../../../assets/react.svg';
+// import male from '../../../assets/boy.svg';
+// import female from '../../../assets/female.svg';
+import { getCandidates, deleteCandidate } from "../../services/candidateService";
+import { getElections, getPositions } from "../../services/electionService";
 import { useOnClickOutside } from "../../common/useonclickoutside";
+import './styles/elections.css';
 
 
 const Candidates = () => {
 
+  const [candidates, setCandidates] = useState([]);
+  const [elections, setElections] = useState([]);
+  const [positions, setPositions] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
-
   const ref = useRef();
 
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await getCandidates();
+      const { data: elections } = await getElections();
+      const { data: positions } = await getPositions()
+      setCandidates(data);
+      setElections(elections);
+      setPositions(positions);
+    }
 
-  const [persons, setPersons] = useState([
-    {
-      id: 1,
-      photo: male,
-      name: 'Williams Doe',
-      position: 'Deputy',
-      political_party: 'UNIC'
-    },
-    {
-      id: 2,
-      photo: female,
-      name: 'Jane Doe',
-      position: 'Deputy',
-      political_party: 'UNIC'
-    },
-    {
-      id: 3,
-      photo: logo,
-      name: 'Williams Doe',
-      position: 'Deputy',
-      political_party: 'UNIC'
-    },
-  ])
-
+    fetchData();
+  }, []);
 
   const handleCreateOpen = () => {
     setCreateOpen(!createOpen)
   }
-  const handleDelete = (person) => {
-    const newPersons = persons.filter((c) => c.id !== person.id);
-    setPersons(newPersons);
+  const handleDelete = async (person) => {
+    const originalCandidates = candidates;
+    const newCandidates = originalCandidates.filter((c) => c._id !== person._id);
+    setCandidates(newCandidates);
+
+    try {
+      await deleteCandidate(person._id);
+      toast.success('candidate deleted sucessfully.');
+    } catch (error) {
+      if(error.response && error. response.status === 404 )
+      toast.error('This election has already been deleted.');
+
+      setCandidates(originalCandidates);
+    }
   };
+
+  const capitalize = (str) => 
+    str.charAt(0).toUpperCase() + str.slice(1);
 
   return (
     <div className="elections__container">
@@ -66,15 +71,15 @@ const Candidates = () => {
             </tr>
           </thead>
           <tbody>
-            {persons.map((item, index) => (
-              <tr key={item.id}>
+            {candidates.map((item, index) => (
+              <tr key={item._id}>
                 <td scope="row">{index + 1}</td>
                 <td scope="row">
                   <img src={item.photo} alt="" />
                 </td>
-                <td scope="row">{item.name}</td>
-                <td scope="row">{item.position}</td>
-                <td scope="row">{item.political_party}</td>
+                <td scope="row">{capitalize(item.name)}</td>
+                <td scope="row">{capitalize(item.position.name)}</td>
+                <td scope="row">{item.political_party.toUpperCase()}</td>
                 <td scope="row">
                   <button onClick={() => handleDelete(item)} className="btn btn-danger btn-sm">
                     Delete
@@ -93,8 +98,26 @@ const Candidates = () => {
             <input type="text" className="form-control" id='name'/>
           </div>
           <div className="mb-1">
+            <label htmlFor="position" className="form-label">Election</label>
+            <select className="form-select" aria-label="Default select example">
+              <option className="fw-lighter" selected>select an election</option>
+              {elections.map((e) => (
+                <>
+                  <option value={e._id}>{e.name}</option>
+                </>
+              ))}
+            </select>
+          </div>
+          <div className="mb-1">
             <label htmlFor="position" className="form-label">Position</label>
-            <input type="text" className="form-control" id='position' />
+            <select className="form-select" aria-label="Default select example">
+              <option className="fw-lighter" selected>select a position</option>
+              {positions.map((p) => (
+                <>
+                  <option value={p._id}>{p.name}</option>
+                </>
+              ))}
+            </select>
           </div>
           <div className="mb-1">
             <label htmlFor="political_party" className="form-label">Political Party</label>
