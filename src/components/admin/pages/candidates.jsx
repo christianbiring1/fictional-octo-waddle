@@ -103,7 +103,7 @@ const Candidates = () => {
               <option className="fw-lighter" selected>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option value={e._id}>{e.name}</option>
+                  <option value={e._id}>{capitalize(e.name)}</option>
                 </>
               ))}
             </select>
@@ -114,7 +114,7 @@ const Candidates = () => {
               <option className="fw-lighter" selected>select a position</option>
               {positions.map((p) => (
                 <>
-                  <option value={p._id}>{p.name}</option>
+                  <option value={p._id}>{capitalize(p.name)}</option>
                 </>
               ))}
             </select>

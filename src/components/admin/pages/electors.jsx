@@ -65,8 +65,8 @@ const Electors = () => {
                 <td scope="row">{index + 1}</td>
                 <td scope="row">{capitalize(item.name)}</td>
                 <td scope="row">{item.id}</td>
-                <td scope="row">{item.province}</td>
-                <td scope="row">{item.election.name}</td>
+                <td scope="row">{capitalize(item.province)}</td>
+                <td scope="row">{capitalize(item.election.name)}</td>
                 <td scope="row">
                   <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
                 </td>
@@ -84,7 +84,7 @@ const Electors = () => {
           </div>
           <div className="mb-1">
             <label htmlFor="ID" className="form-label">ID</label>
-            <input type="text" className="form-control" id='ID'/>
+            <input type="text" className="form-control" id='ID' placeholder='000-000-000'/>
           </div>
           <div className="mb-1">
           <div className="mb-1">
@@ -97,7 +97,7 @@ const Electors = () => {
               <option className="fw-lighter" selected>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option value={e._id}>{e.name}</option>
+                  <option value={e._id}>{capitalize(e.name)}</option>
                 </>
               ))}
             </select>
