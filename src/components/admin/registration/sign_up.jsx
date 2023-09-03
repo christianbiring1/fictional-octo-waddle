@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Joi from "joi-browser";
 import { register } from "../../services/userService";
+import { toast } from "react-toastify";
 
 const AdminSignUp = () => {
   const [account, setAccount] = useState({
@@ -53,7 +54,16 @@ const AdminSignUp = () => {
     if(errors) return;
 
     // Call the Server
-    await register(account);
+    try {
+      await register(account);
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.info(error.response.data);
+        const errors = { ... allErrors };
+        errors.name = error.response.data;
+        setAllErrors(errors);
+      }
+    }
 
     console.log("Form Submitted!");
     // window.location = '/'
