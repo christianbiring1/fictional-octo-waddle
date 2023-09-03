@@ -42,7 +42,7 @@ const SideBar = () => {
       icon: <HelpIcon />
     },
     {
-      path: '/admin_login',
+      path: '/admin_logout',
       label: 'Logout',
       icon: <ExitToAppIcon />
     }
