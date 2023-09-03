@@ -54,7 +54,9 @@ const AdminLogin = () => {
     // Call the Server
     try {
       const {email, password } = account;
-      await login(email, password);
+      const { data: jwt } = await login(email, password);
+      localStorage.setItem('token', jwt);
+      window.location = '/'
     } catch (error) {
       if (error.response && error.response.status === 400)
         toast.error(error.response.data);
@@ -64,7 +66,6 @@ const AdminLogin = () => {
     }
 
     console.log("Form Submitted!");
-    // window.location = '/'
   }
 
 
