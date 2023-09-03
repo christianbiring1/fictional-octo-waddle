@@ -7,7 +7,3 @@ export function register(user) {
     password: user.password
   });
 }
-
-export function deleteCandidate(candidateId) {
-  return http.delete('http://localhost:3000/api/users/'+ candidateId);
-}

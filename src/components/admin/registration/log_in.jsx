@@ -1,16 +1,20 @@
 import {useState} from "react";
 import Joi from "joi-browser";
+import { login } from '../../services/authService';
+import { toast } from "react-toastify";
+
+
 const AdminLogin = () => {
   const [account, setAccount] = useState({
-    Email: "",
-    Password: "",
+    email: "",
+    password: "",
   });
 
   const [allErrors, setAllErrors] = useState({});
 
   const schema = {
-    Email: Joi.string().email().required().label("Email"),
-    Password: Joi.string().required().label("Password")
+    email: Joi.string().email().required().label("Email"),
+    password: Joi.string().required().label("Password")
   }
 
   const validate = () => {
@@ -40,7 +44,7 @@ const AdminLogin = () => {
     setAllErrors(error);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = validate();
@@ -48,9 +52,19 @@ const AdminLogin = () => {
     if(errors) return;
 
     // Call the Server
+    try {
+      const {email, password } = account;
+      await login(email, password);
+    } catch (error) {
+      if (error.response && error.response.status === 400)
+        toast.error(error.response.data);
+        const errors = { ... allErrors };
+        errors.email = error.response.data;
+        setAllErrors(errors);
+    }
 
     console.log("Form Submitted!");
-    window.location = '/'
+    // window.location = '/'
   }
 
 
@@ -61,30 +75,30 @@ const AdminLogin = () => {
     <div className="user_login">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="Email" className="form-label">Email address</label>
+          <label htmlFor="email" className="form-label">Email address</label>
           <input
             type="email"
-            value={account.Email}
+            value={account.email}
             onChange={handleChange}
             className="form-control"
-            id="Email"
-            name="Email"
+            id="email"
+            name="email"
             autoFocus
           />
         </div>
-          {allErrors.Email && <div className="text-danger error__message">{allErrors.Email}</div>}
+          {allErrors.email && <div className="text-danger error__message">{allErrors.email}</div>}
         <div className="mb-3">
-          <label htmlFor="Password" className="form-label">Password</label>
+          <label htmlFor="password" className="form-label">Password</label>
           <input
             type="password"
             value={account.password}
             onChange={handleChange}
             className="form-control"
-            id="Password"
-            name="Password"
+            id="password"
+            name="password"
           />
         </div>
-          {allErrors.Password && <div className="text-danger error__message">{allErrors.Password}</div>}
+          {allErrors.password && <div className="text-danger error__message">{allErrors.password}</div>}
         <div className="mb-3 form-check">
           <input
             type="checkbox"
