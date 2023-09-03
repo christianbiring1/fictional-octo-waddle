@@ -60,41 +60,41 @@ const AdminLogin = () => {
   return (
     <div className="user_login">
       <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="Email" className="form-label">Email address</label>
-        <input
-          type="email"
-          value={account.Email}
-          onChange={handleChange}
-          className="form-control"
-          id="Email"
-          name="Email"
-          autoFocus
-        />
-      </div>
-        {allErrors.Email && <div className="text-danger error__message">{allErrors.Email}</div>}
-    <div className="mb-3">
-      <label htmlFor="Password" className="form-label">Password</label>
-      <input
-        type="password"
-        value={account.password}
-        onChange={handleChange}
-        className="form-control"
-        id="Password"
-        name="Password"
-      />
-    </div>
-        {allErrors.Password && <div className="text-danger error__message">{allErrors.Password}</div>}
-    <div className="mb-3 form-check">
-      <input
-        type="checkbox"
-        className="form-check-input"
-        id="exampleCheck1"
-      />
-      <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" className="btn btn-primary">Login</button>
-    </form>
+        <div className="mb-3">
+          <label htmlFor="Email" className="form-label">Email address</label>
+          <input
+            type="email"
+            value={account.Email}
+            onChange={handleChange}
+            className="form-control"
+            id="Email"
+            name="Email"
+            autoFocus
+          />
+        </div>
+          {allErrors.Email && <div className="text-danger error__message">{allErrors.Email}</div>}
+        <div className="mb-3">
+          <label htmlFor="Password" className="form-label">Password</label>
+          <input
+            type="password"
+            value={account.password}
+            onChange={handleChange}
+            className="form-control"
+            id="Password"
+            name="Password"
+          />
+        </div>
+          {allErrors.Password && <div className="text-danger error__message">{allErrors.Password}</div>}
+        <div className="mb-3 form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="exampleCheck1"
+          />
+          <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" className="btn btn-primary">Login</button>
+      </form>
     </div>
   )
 }

@@ -7,6 +7,7 @@ import MainPage from './components/user/user'
 import Admin from './components/admin'
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
+import AdminSignUp from './components/admin/registration/sign_up';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
     <ToastContainer newestOnTop={false} autoClose={1000} />
     <Routes>
       <Route path='*' element={<Admin />} />
+      <Route path="/admin_register" element={<AdminSignUp />} />
       <Route path="/admin_login" element={<Login />} />
       <Route path="/user_login" element={<UserLogin />} />
       <Route path="/user" element={<MainPage />} />
