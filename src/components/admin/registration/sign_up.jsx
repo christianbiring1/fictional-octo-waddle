@@ -55,7 +55,9 @@ const AdminSignUp = () => {
 
     // Call the Server
     try {
-      await register(account);
+      const response = await register(account);
+      localStorage.setItem("token", response.headers["x-auth-token"]);
+      window.location = "/";
     } catch (error) {
       if (error.response && error.response.status === 400) {
         toast.info(error.response.data);
