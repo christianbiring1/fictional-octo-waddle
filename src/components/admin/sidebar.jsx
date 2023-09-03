@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import GroupsIcon from '@mui/icons-material/Groups';
 import RuleIcon from '@mui/icons-material/Rule';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -5,10 +7,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import HelpIcon from '@mui/icons-material/Help';
-import { NavLink } from "react-router-dom";
 import './sidebar.css';
 
-const SideBar = () => {
+const SideBar = ({ user }) => {
 
   const navItem = [
     {
@@ -50,6 +51,8 @@ const SideBar = () => {
   return (
     <div className='nav-bar'>
       <h1 className='header'>My App</h1>
+      <h5>Welcome to voty!</h5>
+      <p>You are connected as {user.name}</p>
       {navItem.map((item) => (
         <NavLink key={item.label} to={item.path}>
           <ul className='navbar__list'>
@@ -64,4 +67,7 @@ const SideBar = () => {
   );
 }
  
+SideBar.propTypes = {
+  user: PropTypes.object.isRequired
+}
 export default SideBar;
