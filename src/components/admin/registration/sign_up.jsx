@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Joi from "joi-browser";
+import { register } from "../../services/userService";
 
 const AdminSignUp = () => {
   const [account, setAccount] = useState({
-    Name: "",
-    Email: "",
-    Password: "",
+    name: "",
+    email: "",
+    password: "",
   });
 
   const [allErrors, setAllErrors] = useState({});
 
   const schema = {
-    Name: Joi.string().required().label("Name"),
-    Email: Joi.string().email().required().label("Email"),
-    Password: Joi.string().min(5).required().label("Password")
+    name: Joi.string().required().label("Name"),
+    email: Joi.string().email().required().label("Email"),
+    password: Joi.string().min(5).required().label("Password")
   }
 
   const validate = () => {
@@ -44,7 +45,7 @@ const AdminSignUp = () => {
     setAllErrors(error);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = validate();
@@ -52,52 +53,53 @@ const AdminSignUp = () => {
     if(errors) return;
 
     // Call the Server
+    await register(account);
 
     console.log("Form Submitted!");
-    window.location = '/'
+    // window.location = '/'
   }
 
   return (
     <div className="user_login">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="Name" className="form-label">Name</label>
+          <label htmlFor="name" className="form-label">Name</label>
           <input
             type="text"
-            value={account.Name}
+            value={account.name}
             onChange={handleChange}
             className="form-control"
-            id="Name"
-            name="Name"
+            id="name"
+            name="name"
             autoFocus
           />
        </div>
-        {allErrors.Name && <div className="text-danger error__message">{allErrors.Name}</div>}
+        {allErrors.name && <div className="text-danger error__message">{allErrors.name}</div>}
         <div className="mb-3">
-          <label htmlFor="Email" className="form-label">Email address</label>
+          <label htmlFor="email" className="form-label">Email address</label>
           <input
             type="email"
-            value={account.Email}
+            value={account.email}
             onChange={handleChange}
             className="form-control"
-            id="Email"
-            name="Email"
+            id="email"
+            name="email"
           />
         </div>
-        {allErrors.Email && <div className="text-danger error__message">{allErrors.Email}</div>}
+        {allErrors.email && <div className="text-danger error__message">{allErrors.email}</div>}
         <div className="mb-3">
-          <label htmlFor="Password" className="form-label">Password</label>
+          <label htmlFor="password" className="form-label">Password</label>
           <input
             type="password"
             value={account.password}
             onChange={handleChange}
             className="form-control"
-            id="Password"
-            name="Password"
+            id="password"
+            name="password"
           />
         </div>
-        {allErrors.Password && <div className="text-danger error__message">{allErrors.Password}</div>}
-        <button type="submit" className="btn btn-primary">Login</button>
+        {allErrors.password && <div className="text-danger error__message">{allErrors.password}</div>}
+        <button type="submit" className="btn btn-primary">Register</button>
       </form>
       <div>Already have an account? <Link to="/admin_login">LogIn</Link></div>
     </div>
