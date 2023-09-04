@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { getElectors, deleteElectors } from '../../services/electorService';
 import { getElections } from '../../services/electionService';
 import Pagination from '../../common/pagination';
+import ListGroup from '../../common/listGroup';
 import { paginate } from '../../utils/paginate';
 import { Delete } from '@mui/icons-material';
 
@@ -52,11 +53,20 @@ const Electors = () => {
     setCurrentPage(page);
   }
 
+  const handleElectionSelect = (election) => {
+    console.log(election);
+  }
+
   const allElectors = paginate(electors, currentPage, pageSize)
 
   return (
     <div className="elections__container">
-      <h1>Electors</h1>
+      <div className="row">
+        <div className="col-2">
+          <ListGroup items={elections} onItemSelect={handleElectionSelect} />
+        </div>
+        <div className="col">
+          <h1>Electors</h1>
       <div className="create_election">
         <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Add candidate</button>
       </div>
@@ -92,6 +102,8 @@ const Electors = () => {
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
+        </div>
+      </div>
         {
         createOpen && 
       <div className="create__form">
