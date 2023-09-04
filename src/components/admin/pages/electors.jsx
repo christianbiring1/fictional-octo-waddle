@@ -13,6 +13,7 @@ const Electors = () => {
   const [elections, setElections] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [pageSize, setPageSize] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
   const ref = useRef();
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
@@ -47,7 +48,7 @@ const Electors = () => {
     str.charAt(0).toUpperCase() + str.slice(1);
 
   const handlePageChange = (page) => {
-    console.log(page)
+    setCurrentPage(page);
   }
 
   return (
@@ -82,7 +83,12 @@ const Electors = () => {
             ))}
           </tbody>
         </table>
-        <Pagination itemsCount={electors.length} pageSize={pageSize} onPageChange={handlePageChange}/>
+        <Pagination
+          itemsCount={electors.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
         {
         createOpen && 
       <div className="create__form">
