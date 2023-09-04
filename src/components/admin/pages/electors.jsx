@@ -16,6 +16,9 @@ const Electors = () => {
   const [createOpen, setCreateOpen] = useState(false);
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [genre, setGenre] = useState("");
+
+
   const ref = useRef();
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
@@ -54,7 +57,7 @@ const Electors = () => {
   }
 
   const handleElectionSelect = (election) => {
-    console.log(election);
+    setGenre(election)
   }
 
   const allElectors = paginate(electors, currentPage, pageSize)
@@ -63,8 +66,10 @@ const Electors = () => {
     <div className="elections__container">
       <div className="row">
         <div className="col-3">
+          <h5 className='fw-lighter'>Available elections</h5>
           <ListGroup
             items={elections}
+            selectedItem={genre}
             // textProperty="name"
             // valueProperty="_id"
             onItemSelect={handleElectionSelect} 
