@@ -3,12 +3,16 @@ import { useOnClickOutside } from '../../common/useonclickoutside';
 import { toast } from 'react-toastify';
 import { getElectors, deleteElectors } from '../../services/electorService';
 import { getElections } from '../../services/electionService';
+import Pagination from '../../common/pagination';
 import { Delete } from '@mui/icons-material';
+
+
 const Electors = () => {
 
   const [electors, setElectors] = useState([]);
   const [elections, setElections] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
+  const [pageSize, setPageSize] = useState(5);
   const ref = useRef();
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
@@ -42,6 +46,10 @@ const Electors = () => {
   const capitalize = (str) => 
     str.charAt(0).toUpperCase() + str.slice(1);
 
+  const handlePageChange = (page) => {
+    console.log(page)
+  }
+
   return (
     <div className="elections__container">
       <h1>Electors</h1>
@@ -74,6 +82,7 @@ const Electors = () => {
             ))}
           </tbody>
         </table>
+        <Pagination itemsCount={electors.length} pageSize={pageSize} onPageChange={handlePageChange}/>
         {
         createOpen && 
       <div className="create__form">
