@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { getElectors, deleteElectors } from '../../services/electorService';
 import { getElections } from '../../services/electionService';
 import Pagination from '../../common/pagination';
+import { paginate } from '../../utils/paginate';
 import { Delete } from '@mui/icons-material';
 
 
@@ -51,6 +52,8 @@ const Electors = () => {
     setCurrentPage(page);
   }
 
+  const allElectors = paginate(electors, currentPage, pageSize)
+
   return (
     <div className="elections__container">
       <h1>Electors</h1>
@@ -69,7 +72,7 @@ const Electors = () => {
             </tr>
           </thead>
           <tbody>
-            {electors.map((item, index) => (
+            {allElectors.map((item, index) => (
               <tr key={item._id}>
                 <td scope="row">{index + 1}</td>
                 <td scope="row">{capitalize(item.name)}</td>
