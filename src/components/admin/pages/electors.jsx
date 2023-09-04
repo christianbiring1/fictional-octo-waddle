@@ -62,8 +62,13 @@ const Electors = () => {
   return (
     <div className="elections__container">
       <div className="row">
-        <div className="col-2">
-          <ListGroup items={elections} onItemSelect={handleElectionSelect} />
+        <div className="col-3">
+          <ListGroup
+            items={elections}
+            // textProperty="name"
+            // valueProperty="_id"
+            onItemSelect={handleElectionSelect} 
+          />
         </div>
         <div className="col">
           <h1>Electors</h1>
@@ -73,7 +78,6 @@ const Electors = () => {
       <table className="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">ID</th>
               <th scope="col">Province</th>
@@ -82,9 +86,8 @@ const Electors = () => {
             </tr>
           </thead>
           <tbody>
-            {allElectors.map((item, index) => (
+            {allElectors.map((item) => (
               <tr key={item._id}>
-                <td scope="row">{index + 1}</td>
                 <td scope="row">{capitalize(item.name)}</td>
                 <td scope="row">{item.id}</td>
                 <td scope="row">{capitalize(item.province)}</td>
