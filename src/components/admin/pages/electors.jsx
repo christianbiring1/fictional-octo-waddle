@@ -14,7 +14,7 @@ const Electors = () => {
   const [electors, setElectors] = useState([]);
   const [elections, setElections] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [genre, setGenre] = useState("");
 
@@ -26,7 +26,9 @@ const Electors = () => {
       const { data } = await getElectors();
       const { data: elections } = await getElections();
       setElectors(data);
-      setElections(elections);
+
+      setElections([{ name: 'All Elections'}, ...elections]);
+      console.log(elections)
     }
     fetchData();
   }, []);
@@ -58,9 +60,16 @@ const Electors = () => {
 
   const handleElectionSelect = (election) => {
     setGenre(election)
-  }
+    setCurrentPage(1)
+  };
 
-  const allElectors = paginate(electors, currentPage, pageSize)
+  const filtered = genre && genre._id
+    ? electors.filter(e => e.election._id === genre._id)
+    : electors;
+
+  const allElectors = paginate(filtered, currentPage, pageSize);
+
+  console.log(allElectors);
 
   return (
     <div className="elections__container">
@@ -76,7 +85,7 @@ const Electors = () => {
           />
         </div>
         <div className="col">
-          <h1>Electors</h1>
+          <p>Showing {filtered.length} Electors in the database</p>
       <div className="create_election">
         <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Add candidate</button>
       </div>
@@ -105,7 +114,7 @@ const Electors = () => {
           </tbody>
         </table>
         <Pagination
-          itemsCount={electors.length}
+          itemsCount={filtered.length}
           pageSize={pageSize}
           currentPage={currentPage}
           onPageChange={handlePageChange}

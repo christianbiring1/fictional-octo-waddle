@@ -53,26 +53,16 @@ const Position = ({capitalize}) => {
           >
             Add positions
         </button>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Positions</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {positions.map((item, index) => (
-            <tr key={item._id}>
-              <td scope="row">{index + 1}</td>
-              <td scope="row">{capitalize(item.name)}</td>
-              <td scope="row">
-                <Delete style={{cursor: 'pointer', color: '#FF6A74'}} onClick={() => handleDelete(item)}/>
-              </td>
-            </tr>
+        <ul className="list-group">
+          {positions.map(item => (
+            <li key={item._id} className="list-group-item">
+              <span>{capitalize(item.name)}</span>
+              <span>
+                <Delete  style={{cursor: 'pointer', color: '#ff6a74'}} onClick={() => handleDelete(item)}/>
+              </span>
+            </li>
           ))}
-        </tbody>
-      </table>
+        </ul>
       {
         createOpen && 
       <div className="create__form">

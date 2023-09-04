@@ -11,12 +11,12 @@ const Elections = () => {
   return (
     <div className="elections__container">
       <h1>Elections</h1>
-      <div className="wrapper">
-        <div className="elections">
-        <Election capitalize={capitalize} />
-        </div>
-        <div className="positions">
+      <div className="row">
+        <div className="col-3">
           <Position capitalize={capitalize} />
+        </div>
+        <div className="col">
+        <Election capitalize={capitalize} />
         </div>
       </div>
     </div>

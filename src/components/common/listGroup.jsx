@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const ListGroup = (props) => {
   const { items, textProperty, valueProperty, selectedItem, onItemSelect } = props;
 
@@ -19,5 +21,13 @@ ListGroup.defaultProps = {
   textProperty: 'name',
   valueProperty: '_id'
 };
+
+ListGroup.propTypes = {
+  items: PropTypes.array.isRequired,
+  textProperty: PropTypes.string.isRequired,
+  valueProperty: PropTypes.string.isRequired,
+  selectedItem: PropTypes.string.isRequired,
+  onItemSelect: PropTypes.func.isRequired
+}
  
 export default ListGroup;
