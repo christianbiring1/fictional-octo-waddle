@@ -27,8 +27,7 @@ const Electors = () => {
       const { data: elections } = await getElections();
       setElectors(data);
 
-      setElections([{ name: 'All Elections'}, ...elections]);
-      console.log(elections)
+      setElections([{ name: 'All Elections', _id: ""}, ...elections]);
     }
     fetchData();
   }, []);
@@ -69,7 +68,6 @@ const Electors = () => {
 
   const allElectors = paginate(filtered, currentPage, pageSize);
 
-  console.log(allElectors);
 
   return (
     <div className="elections__container">
