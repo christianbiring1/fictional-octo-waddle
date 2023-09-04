@@ -21,7 +21,6 @@ const Admin = () => {
       const jwt = localStorage.getItem("token");
       const user = jwtDecode(jwt);
       setUser(user)
-      console.log(user)
     } catch (error) {} // eslint-disable-line no-empty
   }, []);
   return (

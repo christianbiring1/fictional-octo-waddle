@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-toastify';
-// import logo from '../../../assets/react.svg';
-// import male from '../../../assets/boy.svg';
-// import female from '../../../assets/female.svg';
-import { getCandidates, deleteCandidate } from "../../services/candidateService";
+import { getCandidates, deleteCandidate, postCandidate } from "../../services/candidateService";
 import { getElections, getPositions } from "../../services/electionService";
 import { useOnClickOutside } from "../../common/useonclickoutside";
 import './styles/elections.css';
@@ -16,6 +13,11 @@ const Candidates = () => {
   const [positions, setPositions] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
   const ref = useRef();
+  const nameRef= useRef();
+  const electionRef = useRef();
+  const positionRef = useRef();
+  const partyRef = useRef();
+  const photoRef = useRef();
 
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
@@ -47,6 +49,29 @@ const Candidates = () => {
       toast.error('This election has already been deleted.');
 
       setCandidates(originalCandidates);
+    }
+  };
+
+  // const handleClick = (e) => {
+  //   console.log(e.current.files);
+  // }
+
+  const handlePost = async (e) => {
+    e.preventDefault();
+    const name = nameRef.current.value;
+    const electionId = electionRef.current.value;
+    const positionId = positionRef.current.value;
+    const political_party = partyRef.current.value;
+    const photo = photoRef.current.files[0].name;
+
+    try {
+      console.log(name, electionId, positionId, political_party, photo)
+      await postCandidate(name, electionId, positionId, political_party, photo);
+      setCreateOpen(!createOpen);
+      window.location = "/candidates";
+    } catch (error) {
+      if (error.response && error.response.status === 400)
+        toast.error(error.response.data);
     }
   };
 
@@ -92,18 +117,18 @@ const Candidates = () => {
         {
         createOpen && 
       <div className="create__form">
-        <form action="" ref={ref}>
+        <form action="" ref={ref} onSubmit={handlePost}>
           <div className="mb-1">
             <label htmlFor="name" className="form-label">Name</label>
-            <input type="text" className="form-control" id='name'/>
+            <input type="text" ref={nameRef} className="form-control" id='name'/>
           </div>
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Election</label>
             <select className="form-select" aria-label="Default select example">
-              <option className="fw-lighter" selected>select an election</option>
+              <option className="fw-lighter" value={""}>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option value={e._id}>{capitalize(e.name)}</option>
+                  <option key={e._id} value={e._id} ref={electionRef}>{capitalize(e.name)}</option>
                 </>
               ))}
             </select>
@@ -111,21 +136,21 @@ const Candidates = () => {
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Position</label>
             <select className="form-select" aria-label="Default select example">
-              <option className="fw-lighter" selected>select a position</option>
+              <option className="fw-lighter" value={""}>select a position</option>
               {positions.map((p) => (
                 <>
-                  <option value={p._id}>{capitalize(p.name)}</option>
+                  <option key={p._id} value={p._id} ref={positionRef}>{capitalize(p.name)}</option>
                 </>
               ))}
             </select>
           </div>
           <div className="mb-1">
             <label htmlFor="political_party" className="form-label">Political Party</label>
-            <input type="text" className="form-control" id='political_party' />
+            <input type="text" ref={partyRef} className="form-control" id='political_party' />
           </div>
           <div className="mb-1">
             <label htmlFor="photo" className="form-label">Photo</label>
-            <input type="file" className="form-control" id='photo' style={{ width: '40%'}}/>
+            <input type="file" ref={photoRef} className="form-control" id='photo' style={{ width: '40%'}}/>
           </div>
           <button type="submit" className="btn btn-primary btn-sm">Submit</button>
         </form>

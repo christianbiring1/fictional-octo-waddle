@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import PropTypes from 'prop-types';
 import {toast} from 'react-toastify';
 import { useOnClickOutside } from '../../common/useonclickoutside';
-import { getPositions, deletePosistion } from "../../services/electionService";
+import { getPositions, deletePosistion, postPosition } from "../../services/electionService";
 import { Delete } from "@mui/icons-material";
 
 
@@ -12,6 +12,8 @@ const Position = ({capitalize}) => {
   const [createOpen, setCreateOpen] = useState(false);
 
   const ref = useRef();
+  const inputRef = useRef();
+
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false))
 
   useEffect(() => {
@@ -26,6 +28,24 @@ const Position = ({capitalize}) => {
   const handleCreateOpen = () => {
     setCreateOpen(!createOpen)
   }
+
+  //  function handleClick() {
+  //   console.log(inputRef.current.value);
+  // }
+
+  const handlePost = async (e) => {
+    e.preventDefault();
+    try {
+      await postPosition(inputRef.current.value);
+      toast.success('Position added successfully.')
+      setCreateOpen(!createOpen)
+      window.location = "/elections"
+    } catch (error) {
+      if (error.response && error.response.status === 400)
+      toast.error(error.response.data)
+    }
+  }
+
 
    const handleDelete = async (position) => {
     const originalPositions = positions;
@@ -66,10 +86,15 @@ const Position = ({capitalize}) => {
       {
         createOpen && 
       <div className="create__form">
-        <form action="" ref={ref}>
+        <form action="" ref={ref} onSubmit={handlePost}>
           <div className="mb-3">
             <label htmlFor="position" className="form-label">Position Name</label>
-            <input type="text" className="form-control" id='position'/>
+            <input
+            type="text"
+            className="form-control"
+            id='position'
+            ref={inputRef}
+            />
           </div>
           <button type="submit" className="btn btn-primary btn-sm">Submit</button>
         </form>

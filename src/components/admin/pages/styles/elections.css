@@ -18,6 +18,7 @@
   right: 0;
   top: 0;
   bottom: 0;
+  z-index: 2;
 }
 
 .create__form form {
@@ -26,6 +27,7 @@
   background-color: #fff;
   padding: 2rem;
   border-radius: 1rem;
+  z-index: 99;
 }
 
 .no_election {

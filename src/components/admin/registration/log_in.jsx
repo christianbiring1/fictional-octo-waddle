@@ -108,7 +108,7 @@ const AdminLogin = () => {
           />
           <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
         </div>
-        <button type="submit" className="btn btn-primary">Login</button>
+        <button type="submit" className="btn btn-primary" disabled={validate()}>Login</button>
       </form>
     </div>
   )
