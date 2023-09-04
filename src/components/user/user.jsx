@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { getCandidates } from '../services/candidateService';
+import { getVote ,vote } from '../services/voteService';
 
 import './user.css'
+import { toast } from 'react-toastify';
 
 const MainPage = () => {
   const [candidates, setCandidates] = useState([]);
+  const elector = JSON.parse(localStorage.getItem("electorInfo"));
+  // console.log(elector);
   useEffect(() => {
     async function fetchData() {
       const { data } = await getCandidates();
@@ -14,7 +18,19 @@ const MainPage = () => {
     fetchData()
   }, []);
 
-  console.log(candidates);
+  // console.log(candidates);
+
+  const handleVote = async (candidateId, electorId) => {
+
+    try {
+      await vote(candidateId, electorId);
+      toast.success('Your vote have been submitted successfully! :-)')
+    } catch (error) {
+      if (error. response && error.response.status === 400)
+        toast.error(error.response.data);
+    }
+    console.log(candidateId, electorId);
+  }
   return (
     <div className='user_container'>
       <h1>Welcome to Voty!</h1>
@@ -34,7 +50,13 @@ const MainPage = () => {
                 <span>{item.political_party.toUpperCase()}</span>
               </p>
            </div>
-           <button type='button' className="btn btn-success">Vote</button>
+           <button 
+              type='button'
+              className="btn btn-success"
+              onClick={() => handleVote(item._id, elector._id)}
+            >
+              Vote
+            </button>
           </div>
         ))}
       </div>
