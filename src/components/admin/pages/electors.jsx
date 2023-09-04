@@ -14,7 +14,7 @@ const Electors = () => {
   const [electors, setElectors] = useState([]);
   const [elections, setElections] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(10); // eslint-disable-line
   const [currentPage, setCurrentPage] = useState(1);
   const [genre, setGenre] = useState("");
 
