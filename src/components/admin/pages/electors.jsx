@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { toast } from 'react-toastify';
-import { getElectors, deleteElectors } from '../../services/electorService';
+import { getElectors, deleteElectors, postElector } from '../../services/electorService';
 import { getElections } from '../../services/electionService';
 import Pagination from '../../common/pagination';
 import ListGroup from '../../common/listGroup';
@@ -17,6 +17,11 @@ const Electors = () => {
   const [pageSize, setPageSize] = useState(6); // eslint-disable-line
   const [currentPage, setCurrentPage] = useState(1);
   const [genre, setGenre] = useState("");
+
+  const nameRef = useRef();
+  const idRef = useRef();
+  const addressRef = useRef();
+  const electionRef = useRef();
 
 
   const ref = useRef();
@@ -49,6 +54,23 @@ const Electors = () => {
       setElectors(originalElectors);
     }
   };
+
+  const handlePost = async (e) => {
+    e.preventDefault();
+
+    try {
+      const name = nameRef.current.value;
+      const id = idRef.current.value;
+      const address = addressRef.current.value;
+      const electionId = electionRef.current.value;
+      await postElector(name, id, address, electionId);
+      window.location = "/electors"
+      setCreateOpen(!createOpen);
+    } catch (error) {
+      if (error.response && error.response.status === 400)
+        toast.error(error.response.data);
+    }
+  }
 
   const capitalize = (str) => 
     str.charAt(0).toUpperCase() + str.slice(1);
@@ -85,7 +107,7 @@ const Electors = () => {
         <div className="col">
           <p>Showing {filtered.length} Electors in the database</p>
       <div className="create_election">
-        <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Add candidate</button>
+        <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Add Elector</button>
       </div>
       <table className="table">
           <thead>
@@ -122,27 +144,27 @@ const Electors = () => {
         {
         createOpen && 
       <div className="create__form">
-        <form action="" ref={ref}>
+        <form action="" ref={ref} onSubmit={handlePost}>
           <div className="mb-1">
             <label htmlFor="name" className="form-label">Name</label>
-            <input type="text" className="form-control" id='name'/>
+            <input type="text" ref={nameRef} className="form-control" id='name'/>
           </div>
           <div className="mb-1">
             <label htmlFor="ID" className="form-label">ID</label>
-            <input type="text" className="form-control" id='ID' placeholder='000-000-000'/>
+            <input type="text" ref={idRef} className="form-control" id='ID' placeholder='000-000-000'/>
           </div>
           <div className="mb-1">
           <div className="mb-1">
             <label htmlFor="province" className="form-label">Province</label>
-            <input type="text" className="form-control" id='province' />
+            <input type="text" ref={addressRef} className="form-control" id='province' />
           </div>
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Election</label>
             <select className="form-select">
-              <option className="fw-lighter" selected>select an election</option>
+              <option className="fw-lighter" value={""}>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option value={e._id}>{capitalize(e.name)}</option>
+                  <option key={e._id} value={e._id} ref={electionRef}>{capitalize(e.name)}</option>
                 </>
               ))}
             </select>
