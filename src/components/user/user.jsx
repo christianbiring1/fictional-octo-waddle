@@ -7,18 +7,27 @@ import { toast } from 'react-toastify';
 
 const MainPage = () => {
   const [candidates, setCandidates] = useState([]);
+  const [result, setResult] = useState([]);
   const elector = JSON.parse(localStorage.getItem("electorInfo"));
   // console.log(elector);
   useEffect(() => {
     async function fetchData() {
       const { data } = await getCandidates();
+      const {data: response} = await getVote();
       setCandidates(data);
+      setResult(response);
     }
 
     fetchData()
   }, []);
 
-  // console.log(candidates);
+  console.log(result);
+  const hideVote = () => {
+    const v = result.find((m) => elector._id === m.elector._id);
+    console.log(v)
+  };
+
+  hideVote()
 
   const handleVote = async (candidateId, electorId) => {
 
