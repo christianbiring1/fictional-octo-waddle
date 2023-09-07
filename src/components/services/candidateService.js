@@ -7,7 +7,11 @@ export function getCandidates() {
 export function postCandidate(name, electionId, positionId, political_party, photo) {
   return http.post('http://localhost:3000/api/candidates', {
     name, electionId, positionId, political_party, photo
-  });
+  },
+  {
+    headers: {'Content-Type': 'multipart/form-data'}
+  }
+  )
 }
 
 export function deleteCandidate(candidateId) {

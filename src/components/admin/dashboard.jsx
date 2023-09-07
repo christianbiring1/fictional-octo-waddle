@@ -33,7 +33,7 @@ const DashBoard = () => {
       <h1>Admin Dashboard</h1>
       <div className="container">
           <div className="card" style={{width: '18rem'}}>
-            <img src="..." className="card-img-top" alt="..." />
+            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
               <p className="card-text">Candidates</p>
               <p className='card-text'>
@@ -43,7 +43,7 @@ const DashBoard = () => {
            </div>
           </div>
           <div className="card" style={{width: '18rem'}}>
-            <img src="..." className="card-img-top" alt="..." />
+            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
               <p className="card-text">Elections</p>
               <p className='card-text'>
@@ -53,7 +53,7 @@ const DashBoard = () => {
            </div>
           </div>
           <div className="card" style={{width: '18rem'}}>
-            <img src="..." className="card-img-top" alt="..." />
+            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
               <p className="card-text">Electors</p>
               <p className='card-text'>
@@ -63,7 +63,7 @@ const DashBoard = () => {
            </div>
           </div>
           <div className="card" style={{width: '18rem'}}>
-            <img src="..." className="card-img-top" alt="..." />
+            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
               <p className="card-text">Positions</p>
               <p className='card-text'>

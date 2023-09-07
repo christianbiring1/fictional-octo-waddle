@@ -21,7 +21,8 @@ const Electors = () => {
   const nameRef = useRef();
   const idRef = useRef();
   const addressRef = useRef();
-  const electionRef = useRef();
+  const [selectedElection, setSelectedElection] = useState("");
+  
 
 
   const ref = useRef();
@@ -62,7 +63,7 @@ const Electors = () => {
       const name = nameRef.current.value;
       const id = idRef.current.value;
       const address = addressRef.current.value;
-      const electionId = electionRef.current.value;
+      const electionId = selectedElection;
       await postElector(name, id, address, electionId);
       window.location = "/electors"
       setCreateOpen(!createOpen);
@@ -160,11 +161,11 @@ const Electors = () => {
           </div>
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Election</label>
-            <select className="form-select">
+            <select className="form-select" value={selectedElection} onChange={(e) => setSelectedElection(e.target.value)}>
               <option className="fw-lighter" value={""}>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option key={e._id} value={e._id} ref={electionRef}>{capitalize(e.name)}</option>
+                  <option key={e._id} value={e._id}>{capitalize(e.name)}</option>
                 </>
               ))}
             </select>

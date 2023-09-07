@@ -12,10 +12,10 @@ const Candidates = () => {
   const [elections, setElections] = useState([]);
   const [positions, setPositions] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
+  const [selectedElection, setSelectedElection] = useState("");
+  const [selectedPosition, setSelectedPosition] = useState("");
   const ref = useRef();
   const nameRef= useRef();
-  const electionRef = useRef();
-  const positionRef = useRef();
   const partyRef = useRef();
   const photoRef = useRef();
 
@@ -59,13 +59,16 @@ const Candidates = () => {
   const handlePost = async (e) => {
     e.preventDefault();
     const name = nameRef.current.value;
-    const electionId = electionRef.current.value;
-    const positionId = positionRef.current.value;
+    const electionId = selectedElection; // Use the selectedElection state
+    const positionId = selectedPosition; // Use the selectedPosition state
+    // const electionId = electionRef.current.value;
+    // const positionId = positionRef.current.value;
     const political_party = partyRef.current.value;
-    const photo = photoRef.current.files[0].name;
-
+    const photo = photoRef.current.files[0];
+    
     try {
-      console.log(name, electionId, positionId, political_party, photo)
+      console.log(photo)
+      console.log(name, electionId, positionId, political_party, photoRef.current.files[0]);
       await postCandidate(name, electionId, positionId, political_party, photo);
       setCreateOpen(!createOpen);
       window.location = "/candidates";
@@ -100,7 +103,7 @@ const Candidates = () => {
               <tr key={item._id}>
                 <td scope="row">{index + 1}</td>
                 <td scope="row">
-                  <img src={item.photo} alt="" />
+                  <img src={`http://localhost:3000/uploads/${item.photo}`} alt={item.name + 'image'} style={{width: '40px', height: '40px', borderRadius: '50%'}} />
                 </td>
                 <td scope="row">{capitalize(item.name)}</td>
                 <td scope="row">{capitalize(item.position.name)}</td>
@@ -117,29 +120,34 @@ const Candidates = () => {
         {
         createOpen && 
       <div className="create__form">
-        <form action="" ref={ref} onSubmit={handlePost}>
+        <form action="POST" ref={ref} onSubmit={handlePost} encType="multipart/form-data">
           <div className="mb-1">
             <label htmlFor="name" className="form-label">Name</label>
             <input type="text" ref={nameRef} className="form-control" id='name'/>
           </div>
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Election</label>
-            <select className="form-select" aria-label="Default select example">
+            <select className="form-select" aria-label="Default select example"
+              value={selectedElection}
+              onChange={(e) => setSelectedElection(e.target.value)} >
               <option className="fw-lighter" value={""}>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option key={e._id} value={e._id} ref={electionRef}>{capitalize(e.name)}</option>
+                  <option key={e._id} value={e._id}>{capitalize(e.name)}</option>
                 </>
               ))}
             </select>
           </div>
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Position</label>
-            <select className="form-select" aria-label="Default select example">
+            <select className="form-select" aria-label="Default select example"
+              value={selectedPosition} 
+              onChange={(e) => setSelectedPosition(e.target.value)}
+            >
               <option className="fw-lighter" value={""}>select a position</option>
               {positions.map((p) => (
                 <>
-                  <option key={p._id} value={p._id} ref={positionRef}>{capitalize(p.name)}</option>
+                  <option key={p._id} value={p._id}>{capitalize(p.name)}</option>
                 </>
               ))}
             </select>
@@ -150,7 +158,7 @@ const Candidates = () => {
           </div>
           <div className="mb-1">
             <label htmlFor="photo" className="form-label">Photo</label>
-            <input type="file" ref={photoRef} className="form-control" id='photo' style={{ width: '40%'}}/>
+            <input type="file" ref={photoRef} className="form-control" id='photo' name="photo" style={{ width: '40%'}}/>
           </div>
           <button type="submit" className="btn btn-primary btn-sm">Submit</button>
         </form>

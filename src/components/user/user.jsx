@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom'
 import { getCandidates } from '../services/candidateService';
 import { getVote ,vote } from '../services/voteService';
+import { toast } from 'react-toastify';
 
 import './user.css'
-import { toast } from 'react-toastify';
 
 const MainPage = () => {
 
@@ -25,10 +25,13 @@ const MainPage = () => {
   }, []);
 
   console.log(result);
-  const hideVote = () => {
+//   const hideVote = () => {
 // TO-DO
-    return result.find((m) => elector._id === m.elector._id) ? true : false;
-  };
+//     return result.find((m) => elector._id === m.elector._id) ? true : false;
+//   };
+  const hideVote = (candidatePositionName) => {
+  return result.some((vote) => vote.candidate.position.name === candidatePositionName);
+};
 
   console.log(hideVote())
 
@@ -61,9 +64,13 @@ const MainPage = () => {
       <div>
         {candidates.map((item) => (
           <div key={item._id} className="card" style={{width: '18rem'}}>
-            <img src="..." className="card-img-top" alt="..." />
+            <img src={`http://localhost:3000/uploads/${item.photo}`} className="card-img-top" alt={item.name + 'photo'} style={{height: '192px'}} />
             <div className="card-body">
               <p className="card-text">{item.name}</p>
+              <p className='card-text'>
+                <span>Election name: </span>
+                <span>{item.position.name}</span> 
+              </p>
               <p className='card-text'>
                 <span>Position: </span>
                 <span>{item.position.name}</span> 
@@ -74,7 +81,7 @@ const MainPage = () => {
               </p>
            </div>
            {
-            !hideVote() && 
+            !hideVote(item.position.name) &&
             <button 
                 type='button'
                 className="btn btn-success"
