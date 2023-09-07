@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+// import { useHistory } from 'react-router-dom'
 import { getCandidates } from '../services/candidateService';
 import { getVote ,vote } from '../services/voteService';
 
@@ -6,6 +7,8 @@ import './user.css'
 import { toast } from 'react-toastify';
 
 const MainPage = () => {
+
+  // const history = useHistory();
   const [candidates, setCandidates] = useState([]);
   const [result, setResult] = useState([]);
   const elector = JSON.parse(localStorage.getItem("electorInfo"));
@@ -23,27 +26,38 @@ const MainPage = () => {
 
   console.log(result);
   const hideVote = () => {
-    const v = result.find((m) => elector._id === m.elector._id);
-    console.log(v)
+// TO-DO
+    return result.find((m) => elector._id === m.elector._id) ? true : false;
   };
 
-  hideVote()
+  console.log(hideVote())
 
   const handleVote = async (candidateId, electorId) => {
 
     try {
       await vote(candidateId, electorId);
-      toast.success('Your vote have been submitted successfully! :-)')
+      toast.success('Your vote have been submitted successfully! :-)');
+
+      setTimeout(() => {
+        window.location = "/user"
+      }, 1000);
     } catch (error) {
-      if (error. response && error.response.status === 400)
+      if (error.response)
         toast.error(error.response.data);
     }
     console.log(candidateId, electorId);
-  }
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem("electorInfo");
+    // history.push('/user_login');
+    window.location = "/user_login"
+  };
+
   return (
     <div className='user_container'>
       <h1>Welcome to Voty!</h1>
-
+      <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
       <div>
         {candidates.map((item) => (
           <div key={item._id} className="card" style={{width: '18rem'}}>
@@ -59,13 +73,16 @@ const MainPage = () => {
                 <span>{item.political_party.toUpperCase()}</span>
               </p>
            </div>
-           <button 
-              type='button'
-              className="btn btn-success"
-              onClick={() => handleVote(item._id, elector._id)}
-            >
-              Vote
-            </button>
+           {
+            !hideVote() && 
+            <button 
+                type='button'
+                className="btn btn-success"
+                onClick={() => handleVote(item._id, elector._id)}
+              >
+                Vote
+              </button>
+           }
           </div>
         ))}
       </div>

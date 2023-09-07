@@ -68,14 +68,13 @@ const Position = ({capitalize}) => {
   return (
     <div>
       <button className='btn btn-primary btn-sm mb-4 mt-2 add'
-          style={{ padding: '0.7rem', borderRadius: '1.5rem' }}
           onClick={handleCreateOpen}
           >
-            Add positions
+            Add Position
         </button>
         <ul className="list-group">
           {positions.map(item => (
-            <li key={item._id} className="list-group-item">
+            <li key={item._id} className="list-group-item" style={{display: 'flex', justifyContent: 'space-around'}}>
               <span>{capitalize(item.name)}</span>
               <span>
                 <Delete  style={{cursor: 'pointer', color: '#ff6a74'}} onClick={() => handleDelete(item)}/>

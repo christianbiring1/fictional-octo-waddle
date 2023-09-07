@@ -14,7 +14,7 @@ const UserLogin = () => {
   const [allErrors, setAllErrors] = useState({});
 
   const schema = {
-    name: Joi.string().required(),
+    name: Joi.string().required().label("Name"),
     user_id: Joi.string().trim().min(10).required().label('ID')
   }
 
@@ -72,7 +72,8 @@ const UserLogin = () => {
   return (
     <div className="user_login">
       <form onSubmit={handleSubmit}>
-        <div className="">
+        <h1 className="text-primary">Elector Login</h1>
+        <div className="mb-2">
           <label htmlFor="name" className="form-label">Name</label>
           <input
             type="text"
@@ -83,9 +84,9 @@ const UserLogin = () => {
             id="name"
             autoFocus
           />
-        {allErrors.name && <div className="text-danger error__message">{allErrors.name}</div>}   
+          {allErrors.name && <div className="text-danger error__message">{allErrors.name}</div>}   
         </div>
-        <div className="">
+        <div className="mb-2">
           <label htmlFor="userId" className="form-label">ID number</label>
           <input
             type="text"
@@ -97,9 +98,9 @@ const UserLogin = () => {
             placeholder="000 - 000 - 000"
           />
           <div id="emailHelp" className="form-text">We&apos;ll never share your ID with anyone else.</div>
+          {allErrors.user_id && <div className="text-danger error__message">{allErrors.user_id}</div>}
         </div>
-        {allErrors.user_id && <div className="text-danger error__message">{allErrors.user_id}</div>}
-        <button type="submit" className="btn btn-primary mt-3">Login</button>
+        <button type="submit" disabled={validate()} className="btn btn-primary mt-3">Login</button>
       </form>
     </div>
   );

@@ -62,10 +62,9 @@ const Election = (props) => {
   return (
     <div>
       <button className='btn btn-primary btn-sm mb-4 mt-2 add'
-          style={{ padding: '0.7rem', borderRadius: '1.5rem' }}
           onClick={handleCreateOpen}
           >
-            Create New Election
+            New Election
         </button>
       <table className="table">
         <thead>

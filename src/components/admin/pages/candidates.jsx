@@ -82,7 +82,7 @@ const Candidates = () => {
     <div className="elections__container">
       <h1>Candidates</h1>
       <div className="create_election">
-        <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Add candidate</button>
+        <button className='btn btn-primary mb-4 mt-2 add' onClick={handleCreateOpen}>Add candidate</button>
       </div>
       <table className="table">
           <thead>

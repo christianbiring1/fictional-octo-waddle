@@ -1,11 +1,31 @@
 .user_login {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(192, 189, 189);
+}
+
+.user_login form {
   width: 30%;
-  margin: 10rem auto;
+  margin: 5rem auto;
   font-size: 1rem;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+form h1 {
+  text-align: center;
+}
+
+.user_login .btn {
+  width: 100%;
 }
 
 .error__message {
   font-size: .9rem;
   padding: 0 0.7rem;
-  margin: 0;
+  margin: 2px;
 }

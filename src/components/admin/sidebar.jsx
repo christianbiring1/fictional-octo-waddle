@@ -8,6 +8,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import HelpIcon from '@mui/icons-material/Help';
 import './sidebar.css';
+import _ from "lodash";
 
 const SideBar = ({ user }) => {
 
@@ -52,9 +53,9 @@ const SideBar = ({ user }) => {
     <div className='nav-bar'>
       <h1 className='header'>My App</h1>
       <h5>Welcome to voty!</h5>
-      <div>
+      <div className="hero">
         <p>You are connected as</p>
-        <p>{user.name}</p>
+        <p>{_.capitalize(user.name)}</p>
       </div>
       {navItem.map((item) => (
         <NavLink key={item.label} to={item.path}>

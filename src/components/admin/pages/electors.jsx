@@ -107,7 +107,7 @@ const Electors = () => {
         <div className="col">
           <p>Showing {filtered.length} Electors in the database</p>
       <div className="create_election">
-        <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Add Elector</button>
+        <button className='btn btn-primary mb-4 mt-2 add' onClick={handleCreateOpen}>New Elector</button>
       </div>
       <table className="table">
           <thead>
