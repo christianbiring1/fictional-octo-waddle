@@ -25,13 +25,14 @@ const MainPage = () => {
   }, []);
 
   console.log(result);
-//   const hideVote = () => {
-// TO-DO
-//     return result.find((m) => elector._id === m.elector._id) ? true : false;
-//   };
-  const hideVote = (candidatePositionName) => {
-  return result.some((vote) => vote.candidate.position.name === candidatePositionName);
+//   const hideVote = (candidatePositionName) => {
+//   return result.some((vote) => vote.candidate.position.name === candidatePositionName);
+// };
+   const hideVote = (candidatePositionName) => {
+  const userHasVoted = result.some((vote) => vote.elector.id === elector.id);
+  return userHasVoted && result.some((vote) => vote.candidate.position.name === candidatePositionName);
 };
+
 
   console.log(hideVote())
 
@@ -60,6 +61,7 @@ const MainPage = () => {
   return (
     <div className='user_container'>
       <h1>Welcome to Voty!</h1>
+      <p>You are connected as {elector.name}</p>
       <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
       <div>
         {candidates.map((item) => (
@@ -67,10 +69,6 @@ const MainPage = () => {
             <img src={`http://localhost:3000/uploads/${item.photo}`} className="card-img-top" alt={item.name + 'photo'} style={{height: '192px'}} />
             <div className="card-body">
               <p className="card-text">{item.name}</p>
-              <p className='card-text'>
-                <span>Election name: </span>
-                <span>{item.position.name}</span> 
-              </p>
               <p className='card-text'>
                 <span>Position: </span>
                 <span>{item.position.name}</span> 
@@ -81,7 +79,7 @@ const MainPage = () => {
               </p>
            </div>
            {
-            !hideVote(item.position.name) &&
+            !hideVote(item.position.name) && (
             <button 
                 type='button'
                 className="btn btn-success"
@@ -89,7 +87,7 @@ const MainPage = () => {
               >
                 Vote
               </button>
-           }
+           )}
           </div>
         ))}
       </div>
