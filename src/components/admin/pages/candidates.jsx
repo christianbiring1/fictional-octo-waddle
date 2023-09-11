@@ -67,8 +67,6 @@ const Candidates = () => {
     const photo = photoRef.current.files[0];
     
     try {
-      console.log(photo)
-      console.log(name, electionId, positionId, political_party, photoRef.current.files[0]);
       await postCandidate(name, electionId, positionId, political_party, photo);
       setCreateOpen(!createOpen);
       window.location = "/candidates";

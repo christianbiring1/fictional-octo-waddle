@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { toast } from 'react-toastify';
-import { getElectors, deleteElectors, postElector } from '../../services/electorService';
+import { getElectors, deleteElectors, postElector, postImportElector } from '../../services/electorService';
 import { getElections } from '../../services/electionService';
 import Pagination from '../../common/pagination';
 import ListGroup from '../../common/listGroup';
@@ -19,6 +19,7 @@ const Electors = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [genre, setGenre] = useState("");
   const [importVisible, setImportVisible] = useState(false);
+  const fileRef = useRef();
 
   const nameRef = useRef();
   const idRef = useRef();
@@ -97,6 +98,20 @@ const Electors = () => {
     setImportVisible(!importVisible)
   }
 
+  const handleImportPost = async (e) => {
+    e.preventDefault();
+    const FILE = fileRef.current.files[0];
+    console.log(FILE)
+    try {
+      await postImportElector(FILE);
+      window.location = "/electors";
+      setImportVisible(!importVisible)
+    } catch (error) {
+      if (error)
+        toast.error(error.response.data)
+    }
+  }
+
   return (
     <div className="elector__container">
       <div className="row">
@@ -151,11 +166,11 @@ const Electors = () => {
         </div>
       </div>
       <div className={importVisible ? 'import_form-container': 'import_form-container active'}>
-        <form action="" className={importVisible ? 'import_form': 'import_form active'}>
+        <form method='post' onSubmit={handleImportPost} className={importVisible ? 'import_form': 'import_form active'} encType="multipart/form-data">
         <button type='button' className='import-btn' onClick={importForm}>X</button>
           <div className="mb-1">
             <label htmlFor="file" className='form-label'>Import Elector details*</label><br />
-            <input type="file" className='form-control-file' accept='.xlsx'/><br />
+            <input type="file"  name="excelFile"  className='form-control-file' accept='.xlsx, xls' ref={fileRef}/><br />
           </div>
           <button type='submit' className="btn btn-primary">Submit</button>
         </form>
