@@ -1,0 +1,56 @@
+.create_elector {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.elector__container {
+  font-size: 1rem;
+  width: 75%;
+  margin: 0 auto;
+  /* position: relative; */
+}
+
+.import-data {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(189, 189, 201);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.import_form-container.active {
+  position: absolute;
+  background-color: rgba(31, 29, 29, 0.8);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 85vw;
+  z-index: 999;
+}
+
+.import_form {
+  background-color: #fff;
+  width: 40%;
+  margin: -10rem auto 0;
+  border-radius: 10px;
+  transition: all .5s;
+  display: none;
+}
+
+.import_form.active {
+  padding: 1rem;
+  margin: 1rem auto 0;
+  display: block;
+}
+
+.import-btn {
+  float: right;
+  border: none;
+  background-color: transparent;
+  opacity: 0.5;
+}

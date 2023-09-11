@@ -157,8 +157,8 @@ const Candidates = () => {
             <input type="text" ref={partyRef} className="form-control" id='political_party' />
           </div>
           <div className="mb-1">
-            <label htmlFor="photo" className="form-label">Photo</label>
-            <input type="file" ref={photoRef} className="form-control" id='photo' name="photo" style={{ width: '40%'}}/>
+            <label htmlFor="photo" className="form-label">Photo</label><br />
+            <input type="file" ref={photoRef} className="form-control-file" id='photo' name="photo"/>
           </div>
           <button type="submit" className="btn btn-primary btn-sm">Submit</button>
         </form>

@@ -7,7 +7,8 @@ import Pagination from '../../common/pagination';
 import ListGroup from '../../common/listGroup';
 import { paginate } from '../../utils/paginate';
 import { Delete } from '@mui/icons-material';
-
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import './styles/elector.css';
 
 const Electors = () => {
 
@@ -17,6 +18,7 @@ const Electors = () => {
   const [pageSize, setPageSize] = useState(6); // eslint-disable-line
   const [currentPage, setCurrentPage] = useState(1);
   const [genre, setGenre] = useState("");
+  const [importVisible, setImportVisible] = useState(false);
 
   const nameRef = useRef();
   const idRef = useRef();
@@ -91,9 +93,12 @@ const Electors = () => {
 
   const allElectors = paginate(filtered, currentPage, pageSize);
 
+  const importForm = () => {
+    setImportVisible(!importVisible)
+  }
 
   return (
-    <div className="elections__container">
+    <div className="elector__container">
       <div className="row">
         <div className="col-3">
           <h5 className='fw-lighter'>Available elections</h5>
@@ -105,42 +110,55 @@ const Electors = () => {
             onItemSelect={handleElectionSelect} 
           />
         </div>
-        <div className="col">
+        <div className="col ms-5">
           <p>Showing {filtered.length} Electors in the database</p>
-      <div className="create_election">
-        <button className='btn btn-primary mb-4 mt-2 add' onClick={handleCreateOpen}>New Elector</button>
-      </div>
-      <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">ID</th>
-              <th scope="col">Province</th>
-              <th scope="col">Election</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {allElectors.map((item) => (
-              <tr key={item._id}>
-                <td scope="row">{capitalize(item.name)}</td>
-                <td scope="row">{item.id}</td>
-                <td scope="row">{capitalize(item.province)}</td>
-                <td scope="row">{capitalize(item.election.name)}</td>
-                <td scope="row">
-                  <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
-                </td>
+          <div className="create_elector">
+            <button className='btn btn-primary mb-3 mt-2 add' onClick={handleCreateOpen}>New Elector</button>
+            <button className=' btn import-data' onClick={importForm}>
+              <UploadFileIcon />
+            </button>
+          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">Province</th>
+                <th scope="col">Election</th>
+                <th scope="col"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={filtered.length}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
+            </thead>
+              <tbody>
+                {allElectors.map((item) => (
+                  <tr key={item._id}>
+                    <td scope="row">{capitalize(item.name)}</td>
+                    <td scope="row">{item.id}</td>
+                    <td scope="row">{capitalize(item.province)}</td>
+                    <td scope="row">{capitalize(item.election.name)}</td>
+                    <td scope="row">
+                      <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+          </table>
+            <Pagination
+              itemsCount={filtered.length}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
         </div>
+      </div>
+      <div className={importVisible ? 'import_form-container': 'import_form-container active'}>
+        <form action="" className={importVisible ? 'import_form': 'import_form active'}>
+        <button type='button' className='import-btn' onClick={importForm}>X</button>
+          <div className="mb-1">
+            <label htmlFor="file" className='form-label'>Import Elector details*</label><br />
+            <input type="file" className='form-control-file' accept='.xlsx'/><br />
+          </div>
+          <button type='submit' className="btn btn-primary">Submit</button>
+        </form>
       </div>
         {
         createOpen && 
