@@ -165,8 +165,8 @@ const Electors = () => {
             />
         </div>
       </div>
-      <div className={importVisible ? 'import_form-container': 'import_form-container active'}>
-        <form method='post' onSubmit={handleImportPost} className={importVisible ? 'import_form': 'import_form active'} encType="multipart/form-data">
+      <div className={!importVisible ? 'import_form-container': 'import_form-container active'}>
+        <form method='post' onSubmit={handleImportPost} className={!importVisible ? 'import_form': 'import_form active'} encType="multipart/form-data">
         <button type='button' className='import-btn' onClick={importForm}>X</button>
           <div className="mb-1">
             <label htmlFor="file" className='form-label'>Import Elector details*</label><br />

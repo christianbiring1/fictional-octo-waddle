@@ -3,6 +3,11 @@ import { getCandidates } from "../services/candidateService";
 import { getElections } from "../services/electionService";
 import { getElectors } from "../services/electorService";
 import { getPositions } from "../services/electionService";
+import votes from '../../assets/votes.jpeg';
+import urne from '../../assets/urne.jpeg';
+import elector from '../../assets/electors.jpeg';
+import candidate from '../../assets/candidates.webp';
+
 import './dashboard.css';
 
 const DashBoard = () => {
@@ -33,41 +38,41 @@ const DashBoard = () => {
       <h1>Admin Dashboard</h1>
       <div className="container">
           <div className="card" style={{width: '18rem'}}>
-            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
+            <img src={candidate} className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
-              <p className="card-text">Candidates</p>
+              <p className="card-text fw-bold">Candidates</p>
               <p className='card-text'>
-                <span>Number of candidates in the db are: </span>
+                <span className="fst-italic fw-light">Number of candidates in the db are: </span>
                 <span>{candidates.length}</span>
               </p>
            </div>
           </div>
           <div className="card" style={{width: '18rem'}}>
-            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
+            <img src={urne} className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
-              <p className="card-text">Elections</p>
+              <p className="card-text fw-bold">Elections</p>
               <p className='card-text'>
-                <span>Number of elections in the db are: </span>
+                <span className="fst-italic fw-light">Number of elections in the db are: </span>
                 <span>{elections.length}</span>
               </p>
            </div>
           </div>
           <div className="card" style={{width: '18rem'}}>
-            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
+            <img src={elector} className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
-              <p className="card-text">Electors</p>
+              <p className="card-text fw-bold">Electors</p>
               <p className='card-text'>
-                <span>Number of electors in the db are: </span>
+                <span className="fst-italic fw-light">Number of electors in the db are: </span>
                 <sapn>{electors.length}</sapn>
               </p>
            </div>
           </div>
           <div className="card" style={{width: '18rem'}}>
-            <img src='..' className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
+            <img src={votes} className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />
             <div className="card-body">
-              <p className="card-text">Positions</p>
+              <p className="card-text fw-bold">Positions</p>
               <p className='card-text'>
-                <span>Number of positions in the db are: </span>
+                <span className="fst-italic fw-light">Number of positions in the db are: </span>
                 <sapn>{positions.length}</sapn>
               </p>
            </div>
