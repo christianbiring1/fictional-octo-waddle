@@ -26,7 +26,7 @@ ListGroup.propTypes = {
   items: PropTypes.array.isRequired,
   textProperty: PropTypes.string.isRequired,
   valueProperty: PropTypes.string.isRequired,
-  selectedItem: PropTypes.string.isRequired,
+  selectedItem: PropTypes.string,
   onItemSelect: PropTypes.func.isRequired
 }
  

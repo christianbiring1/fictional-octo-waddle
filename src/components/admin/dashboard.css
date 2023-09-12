@@ -9,3 +9,8 @@ font-size: 1rem;
 .card-text {
   margin-bottom: 5px;
 }
+
+.charts {
+  display: flex;
+  flex-direction: row;
+}

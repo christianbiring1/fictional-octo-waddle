@@ -6,7 +6,7 @@
 
 .header {
   text-align: center;
-  background-image: linear-gradient(45deg, #0D6EFD, #d4d6d1);
+  background-image: linear-gradient(45deg, rgb(13, 110, 253), #d4d6d1);
   background-repeat: repeat;
   background-clip: text;
   -webkit-background-clip: text;

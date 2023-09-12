@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS } from "chart.js/auto"; //eslint-disable-line
+import _ from 'lodash';
 import { getCandidates } from "../services/candidateService";
 import { getElections } from "../services/electionService";
 import { getElectors } from "../services/electorService";
@@ -32,6 +35,48 @@ const DashBoard = () => {
     fetchData();
 
   }, []);
+
+  const electionData = {
+    labels: elections.map((e) => _.capitalize(e.name)), // Election names
+    datasets: [
+      {
+        label: 'Number of Candidates',
+        data: elections.map((election) =>
+          candidates.filter((candidate) => candidate.election._id === election._id).length), // Number of candidates for each election
+        backgroundColor: 'rgba(13, 110, 253, 0.8)'/*'rgba(75, 192, 192, 0.6)', // Customize the color */,
+        borderColor: 'black',
+        borderWidth: 2
+      },
+    ],
+  };
+
+  const electorsData = {
+    labels: elections.map((e) => _.capitalize(e.name)),
+    datasets: [
+      {
+        label: 'Number of Electors',
+        data: elections.map((election) =>
+          electors.filter((el) => el.election._id === election._id).length),
+        backgroundColor: 'rgba(75, 192, 192, 0.6',
+        borderColor: 'black',
+        borderWidth: 2
+      },
+    ],
+  };
+  const options = {
+  scales: {
+    x: {
+      ticks: {
+        color: 'red', // Change the color of the x-axis labels
+      },
+    },
+    y: {
+      ticks: {
+        color: 'blue', // Change the color of the y-axis labels
+      },
+    },
+  },
+};
 
   return (
     <div className="">
@@ -73,10 +118,18 @@ const DashBoard = () => {
               <p className="card-text fw-bold">Positions</p>
               <p className='card-text'>
                 <span className="fst-italic fw-light">Number of positions in the db are: </span>
-                <span>{positions.length}</span>
+                <span className="fw-bold">{positions.length}</span>
               </p>
            </div>
           </div>
+      </div>
+      <div style={{display: 'flex'}}>
+        <div style={{width: '50%'}}>
+        <Bar data={electionData} options={options}/>
+        </div>
+        <div style={{width: '50%'}}>
+        <Bar data={electorsData} />
+        </div>
       </div>
     </div>
   );

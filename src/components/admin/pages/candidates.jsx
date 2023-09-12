@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { useOnClickOutside } from "../../common/useonclickoutside";
 import { toast } from 'react-toastify';
+import _ from 'lodash';
+import { useOnClickOutside } from "../../common/useonclickoutside";
 import Pagination from "../../common/pagination";
 import { paginate } from "../../utils/paginate";
 import ListGroup from "../../common/listGroup";
 import { getCandidates, deleteCandidate, postCandidate } from "../../services/candidateService";
 import { getElections, getPositions } from "../../services/electionService";
+import SearchBox from "../searchBox";
 import './styles/elections.css';
 import './styles/candidate.css';
 
@@ -26,7 +28,9 @@ const Candidates = () => {
 
   const [pageSize, setPageSize] = useState(6); // eslint-disable-line
   const [currentPage, setCurrentPage] = useState(1);
-  const [genre, setGenre] = useState("");
+  const [genre, setGenre] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  // const [selectedGenre, setSelectedGenre] = useState('');
 
 
 
@@ -84,25 +88,33 @@ const Candidates = () => {
     }
   };
 
-  const capitalize = (str) => 
-    str.charAt(0).toUpperCase() + str.slice(1);
     const handlePageChange = (page) => {
       setCurrentPage(page);
     };
 
     const handleElectionSelect = (election) => {
       setGenre(election);
+      setSearchQuery("");
       setCurrentPage(1)
     }
 
-    const handlePositionSelect = position => {
-      setGenre(position);
-      setCurrentPage(1)
-    }
+    const handleSearch = query => {
+      setSearchQuery(query);
+      setGenre(null);
+      setCurrentPage(1);
+    };
 
-    const filtered = genre && genre._id
-      ? candidates.filter(c => c.election._id === genre._id)
-      : candidates;
+    let filtered = candidates;
+    if (searchQuery)
+      filtered = candidates.filter(c =>
+      c.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) || c.last_name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (genre && genre._id)
+        filtered = candidates.filter(c => c.election._id === genre._id);
+
+    // const filtered = genre && genre._id
+    //   ? candidates.filter(c => c.election._id === genre._id)
+    //   : candidates;
     
     const allCandidates = paginate(filtered, currentPage, pageSize);
 
@@ -117,18 +129,13 @@ const Candidates = () => {
             selectedItem={genre}
             onItemSelect={handleElectionSelect}
           />
-          <p className="fw-light mb-0">Sort By Position</p>
-          <ListGroup
-            items={positions}
-            selectedItem={genre}
-            onItemSelect={handlePositionSelect}
-          />
         </div>
         <div className="col">
           <p>Showing {filtered.length} Candidates in the database</p>
           <div className="create_election">
-            <button className='btn btn-primary mb-4 mt-2 add' onClick={handleCreateOpen}>Add candidate</button>
+            <button className='btn btn-primary mt-2 add' onClick={handleCreateOpen}>Add candidate</button>
           </div>
+          <SearchBox value={searchQuery} onChange={handleSearch}/>
           <table className="table">
               <thead>
                 <tr>
@@ -148,10 +155,10 @@ const Candidates = () => {
                     <td scope="row">
                       <img src={`http://localhost:3000/uploads/${item.photo}`} alt={item.first_name + 'image'} style={{width: '40px', height: '40px', borderRadius: '50%'}} />
                     </td>
-                    <td scope="row">{capitalize(item.first_name)}</td>
-                    <td scope="row">{capitalize(item.last_name)}</td>
+                    <td scope="row">{_.capitalize(item.first_name)}</td>
+                    <td scope="row">{_.capitalize(item.last_name)}</td>
                     <td scope="row">{item.political_party.toUpperCase()}</td>
-                    <td scope="row">{capitalize(item.position.name)}</td>
+                    <td scope="row">{_.capitalize(item.position.name)}</td>
                     <td scope="row">
                       <button onClick={() => handleDelete(item)} className="btn btn-danger btn-sm">
                         Delete
@@ -189,7 +196,7 @@ const Candidates = () => {
               <option className="fw-lighter" value={""}>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option key={e._id} value={e._id}>{capitalize(e.name)}</option>
+                  <option key={e._id} value={e._id}>{_.capitalize(e.name)}</option>
                 </>
               ))}
             </select>
@@ -203,7 +210,7 @@ const Candidates = () => {
               <option className="fw-lighter" value={""}>select a position</option>
               {positions.map((p) => (
                 <>
-                  <option key={p._id} value={p._id}>{capitalize(p.name)}</option>
+                  <option key={p._id} value={p._id}>{_.capitalize(p.name)}</option>
                 </>
               ))}
             </select>
