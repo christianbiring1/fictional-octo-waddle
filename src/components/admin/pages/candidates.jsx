@@ -20,6 +20,7 @@ const Candidates = () => {
   const [selectedPosition, setSelectedPosition] = useState("");
   const ref = useRef();
   const nameRef= useRef();
+  const lastRef = useRef();
   const partyRef = useRef();
   const photoRef = useRef();
 
@@ -62,13 +63,10 @@ const Candidates = () => {
     }
   };
 
-  // const handleClick = (e) => {
-  //   console.log(e.current.files);
-  // }
-
   const handlePost = async (e) => {
     e.preventDefault();
-    const name = nameRef.current.value;
+    const first_name = nameRef.current.value;
+    const last_name = lastRef.current.value;
     const electionId = selectedElection; // Use the selectedElection state
     const positionId = selectedPosition; // Use the selectedPosition state
     // const electionId = electionRef.current.value;
@@ -77,7 +75,7 @@ const Candidates = () => {
     const photo = photoRef.current.files[0];
     
     try {
-      await postCandidate(name, electionId, positionId, political_party, photo);
+      await postCandidate(first_name, last_name, electionId, positionId, political_party, photo);
       setCreateOpen(!createOpen);
       window.location = "/candidates";
     } catch (error) {
@@ -97,6 +95,11 @@ const Candidates = () => {
       setCurrentPage(1)
     }
 
+    const handlePositionSelect = position => {
+      setGenre(position);
+      setCurrentPage(1)
+    }
+
     const filtered = genre && genre._id
       ? candidates.filter(c => c.election._id === genre._id)
       : candidates;
@@ -107,12 +110,18 @@ const Candidates = () => {
     <div className="candidates__container">
       <h1>Candidates</h1>
       <div className="row">
-        <div className="col-2 mt-5">
-          <p className="fw-light">Sorty By Election</p>
+        <div className="col-2 mt-3">
+          <p className="fw-light mb-0">Sorty By Election</p>
           <ListGroup
             items={elections}
             selectedItem={genre}
             onItemSelect={handleElectionSelect}
+          />
+          <p className="fw-light mb-0">Sort By Position</p>
+          <ListGroup
+            items={positions}
+            selectedItem={genre}
+            onItemSelect={handlePositionSelect}
           />
         </div>
         <div className="col">
@@ -125,7 +134,8 @@ const Candidates = () => {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Photo</th>
-                  <th scope="col">Name</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
                   <th scope="col">Political Party</th>
                   <th scope="col">Position</th>
                   <th scope="col"></th>
@@ -136,11 +146,12 @@ const Candidates = () => {
                   <tr key={item._id}>
                     <td scope="row">{index + 1}</td>
                     <td scope="row">
-                      <img src={`http://localhost:3000/uploads/${item.photo}`} alt={item.name + 'image'} style={{width: '40px', height: '40px', borderRadius: '50%'}} />
+                      <img src={`http://localhost:3000/uploads/${item.photo}`} alt={item.first_name + 'image'} style={{width: '40px', height: '40px', borderRadius: '50%'}} />
                     </td>
-                    <td scope="row">{capitalize(item.name)}</td>
-                    <td scope="row">{capitalize(item.position.name)}</td>
+                    <td scope="row">{capitalize(item.first_name)}</td>
+                    <td scope="row">{capitalize(item.last_name)}</td>
                     <td scope="row">{item.political_party.toUpperCase()}</td>
+                    <td scope="row">{capitalize(item.position.name)}</td>
                     <td scope="row">
                       <button onClick={() => handleDelete(item)} className="btn btn-danger btn-sm">
                         Delete
@@ -157,22 +168,18 @@ const Candidates = () => {
               onPageChange={handlePageChange}
             />
         </div>
-        <div className="col-2 mt-5">
-          <p className="fw-light">Sorty By Position</p>
-          <ListGroup
-            items={positions}
-            selectedItem={genre}
-            onItemSelect={handleElectionSelect}
-          />
-        </div>
       </div>
         {
         createOpen && 
       <div className="create__form">
         <form action="POST" ref={ref} onSubmit={handlePost} encType="multipart/form-data">
           <div className="mb-1">
-            <label htmlFor="name" className="form-label">Name</label>
-            <input type="text" ref={nameRef} className="form-control" id='name'/>
+            <label htmlFor="first_name" className="form-label">First Name</label>
+            <input type="text" ref={nameRef} className="form-control" id='first_name'/>
+          </div>
+          <div className="mb-1">
+            <label htmlFor="last_name" className="form-label">Last Name</label>
+            <input type="text" ref={lastRef} className="form-control" id='last_name'/>
           </div>
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Election</label>

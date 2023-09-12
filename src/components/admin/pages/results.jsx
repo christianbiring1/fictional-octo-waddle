@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import _ from 'lodash';
 import { getCandidates } from "../../services/candidateService";
 import './styles/result.css'
 const Results = () => {
@@ -24,15 +25,19 @@ const Results = () => {
               <img src={`http://localhost:3000/uploads/${item.photo}`} className="card-img-top" alt={item.name + 'photo'} style={{height: '192px'}} />
               <div className="card-body">
                 <p className="card-text">
-                  <span>Name: </span>
-                  <span>{item.name}</span>
+                  <span className="fw-bold">First Name: </span>
+                  <span>{_.capitalize(item.first_name)}</span>
                 </p>
                 <p className="card-text">
-                  <span>Political Party: </span>
+                  <span className="fw-bold">Last Name: </span>
+                  <span>{_.capitalize(item.last_name)}</span>
+                </p>
+                <p className="card-text">
+                  <span className="fw-bold">Political Party: </span>
                   <span>{item.political_party}</span>
                 </p>
                 <p className='card-text'>
-                  <span>Voice: </span>
+                  <span className="fw-bold">Voice: </span>
                   <span>{item.voice}</span>
                 </p>
             </div>

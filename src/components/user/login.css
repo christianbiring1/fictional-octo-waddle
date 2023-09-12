@@ -33,7 +33,7 @@ form h1 {
   display: none;
 }
 
-img {
+.logo_container img {
   width: 80px;
   height: 80px;
   border-radius: 50%;
