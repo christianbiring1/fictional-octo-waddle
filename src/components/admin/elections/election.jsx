@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { toast } from "react-toastify";
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { getElections, deleteElection, postElection } from '../../services/electionService';
 
-const Election = (props) => {
-  const { capitalize } = props; //eslint-disable-line
+const Election = () => {
   
   const [elections, setElections] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
@@ -79,7 +78,7 @@ const Election = (props) => {
           {elections.map((item, index) => (
             <tr key={item._id}>
               <td scope="row">{index + 1}</td>
-              <td scope="row">{item.name.toUpperCase()}</td>
+              <td scope="row">{_.capitalize(item.name)}</td>
               <td scope="row">{item.date}</td>
               <td scope="row">
                 <button onClick={() => handleDelete(item)}
@@ -122,7 +121,4 @@ const Election = (props) => {
   );
 }
  
-Election.propTypes = {
-  capitalize: PropTypes.func.isRequired
-}
 export default Election;

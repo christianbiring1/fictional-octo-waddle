@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from "react";
-import PropTypes from 'prop-types';
+import _ from 'lodash';
 import {toast} from 'react-toastify';
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { getPositions, deletePosistion, postPosition } from "../../services/electionService";
 import { Delete } from "@mui/icons-material";
 
 
-const Position = ({capitalize}) => {
+const Position = () => {
 
   const [positions, setPositions] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
@@ -28,10 +28,6 @@ const Position = ({capitalize}) => {
   const handleCreateOpen = () => {
     setCreateOpen(!createOpen)
   }
-
-  //  function handleClick() {
-  //   console.log(inputRef.current.value);
-  // }
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -75,7 +71,7 @@ const Position = ({capitalize}) => {
         <ul className="list-group">
           {positions.map(item => (
             <li key={item._id} className="list-group-item" style={{display: 'flex', justifyContent: 'space-around'}}>
-              <span>{capitalize(item.name)}</span>
+              <span>{_.capitalize(item.name)}</span>
               <span>
                 <Delete  style={{cursor: 'pointer', color: '#ff6a74'}} onClick={() => handleDelete(item)}/>
               </span>
@@ -101,10 +97,6 @@ const Position = ({capitalize}) => {
       }
     </div>
   );
-}
-
-Position.propTypes = {
-  capitalize: PropTypes.func.isRequired
 }
  
 export default Position;
