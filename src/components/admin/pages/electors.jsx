@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { useOnClickOutside } from '../../common/useonclickoutside';
 import { toast } from 'react-toastify';
+import _ from 'lodash';
+import { useOnClickOutside } from '../../common/useonclickoutside';
 import Pagination from '../../common/pagination';
 import { paginate } from '../../utils/paginate';
 import ListGroup from '../../common/listGroup';
+import SearchBox from '../searchBox';
 import { getElectors, deleteElectors, postElector, postImportElector } from '../../services/electorService';
 import { getElections } from '../../services/electionService';
 import { Delete } from '@mui/icons-material';
@@ -24,11 +26,12 @@ const Electors = () => {
   const nameRef = useRef();
   const idRef = useRef();
   const addressRef = useRef();
-  const [selectedElection, setSelectedElection] = useState("");
+  const [selectedElection, setSelectedElection] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   
-
-
   const ref = useRef();
+
+
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
     async function fetchData() {
@@ -76,21 +79,35 @@ const Electors = () => {
     }
   }
 
-  const capitalize = (str) => 
-    str.charAt(0).toUpperCase() + str.slice(1);
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   }
 
   const handleElectionSelect = (election) => {
-    setGenre(election)
+    setGenre(election);
+    setSearchQuery("");
     setCurrentPage(1)
   };
 
-  const filtered = genre && genre._id
-    ? electors.filter(e => e.election._id === genre._id)
-    : electors;
+  const handleSearch = query => {
+    setSearchQuery(query);
+    setGenre(null);
+    setCurrentPage(1);
+  };
+
+  let filtered = electors;
+  if (searchQuery)
+    filtered = electors.filter(e => 
+      e.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      || e.election.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      || e.province.toLowerCase().startsWith(searchQuery.toLowerCase())
+    );
+  else if (genre && genre._id)
+      filtered = electors.filter(e => e.election._id === genre._id);
+
+  // const filtered = genre && genre._id
+  //   ? electors.filter(e => e.election._id === genre._id)
+  //   : electors;
 
   const allElectors = paginate(filtered, currentPage, pageSize);
 
@@ -133,9 +150,11 @@ const Electors = () => {
               <UploadFileIcon />
             </button>
           </div>
+          <SearchBox  value={searchQuery} onChange={handleSearch}/>
           <table className="table">
             <thead>
               <tr>
+                <th scope='col'>#</th>
                 <th scope="col">Name</th>
                 <th scope="col">ID</th>
                 <th scope="col">Province</th>
@@ -144,12 +163,13 @@ const Electors = () => {
               </tr>
             </thead>
               <tbody>
-                {allElectors.map((item) => (
+                {allElectors.map((item, index) => (
                   <tr key={item._id}>
-                    <td scope="row">{capitalize(item.name)}</td>
+                    <td scope="row">{index + 1}</td>
+                    <td scope="row">{_.capitalize(item.name)}</td>
                     <td scope="row">{item.id}</td>
-                    <td scope="row">{capitalize(item.province)}</td>
-                    <td scope="row">{capitalize(item.election.name)}</td>
+                    <td scope="row">{_.capitalize(item.province)}</td>
+                    <td scope="row">{_.capitalize(item.election.name)}</td>
                     <td scope="row">
                       <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
                     </td>
@@ -198,7 +218,7 @@ const Electors = () => {
               <option className="fw-lighter" value={""}>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option key={e._id} value={e._id}>{capitalize(e.name)}</option>
+                  <option key={e._id} value={e._id}>{_.capitalize(e.name)}</option>
                 </>
               ))}
             </select>

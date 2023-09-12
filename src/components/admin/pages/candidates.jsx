@@ -30,9 +30,6 @@ const Candidates = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [genre, setGenre] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  // const [selectedGenre, setSelectedGenre] = useState('');
-
-
 
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
@@ -42,7 +39,7 @@ const Candidates = () => {
       const { data: positions } = await getPositions()
       setCandidates(data);
       setElections( [{ name: 'All Elections', _id: ""}, ...elections]);
-      setPositions([{name: 'All Positions', _id: ""}, ...positions]);
+      setPositions(positions);
     }
 
     fetchData();
@@ -71,10 +68,8 @@ const Candidates = () => {
     e.preventDefault();
     const first_name = nameRef.current.value;
     const last_name = lastRef.current.value;
-    const electionId = selectedElection; // Use the selectedElection state
-    const positionId = selectedPosition; // Use the selectedPosition state
-    // const electionId = electionRef.current.value;
-    // const positionId = positionRef.current.value;
+    const electionId = selectedElection;
+    const positionId = selectedPosition;
     const political_party = partyRef.current.value;
     const photo = photoRef.current.files[0];
     
@@ -107,10 +102,10 @@ const Candidates = () => {
     let filtered = candidates;
     if (searchQuery)
       filtered = candidates.filter(c =>
-      c.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) 
-        || c.last_name.toLowerCase().startsWith(searchQuery.toLowerCase())
-        || c.political_party.toLowerCase().startsWith(searchQuery.toLowerCase())
-        || c.position.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+        c.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) 
+          || c.last_name.toLowerCase().startsWith(searchQuery.toLowerCase())
+          || c.political_party.toLowerCase().startsWith(searchQuery.toLowerCase())
+          || c.position.name.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     else if (genre && genre._id)
         filtered = candidates.filter(c => c.election._id === genre._id);
