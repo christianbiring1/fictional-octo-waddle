@@ -34,7 +34,7 @@ const Results = () => {
                 </p>
                 <p className="card-text">
                   <span className="fw-bold">Political Party: </span>
-                  <span>{item.political_party}</span>
+                  <span>{item.political_party.toUpperCase()}</span>
                 </p>
                 <p className='card-text'>
                   <span className="fw-bold">Voice: </span>

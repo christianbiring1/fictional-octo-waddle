@@ -121,7 +121,7 @@ const Candidates = () => {
       <h1>Candidates</h1>
       <div className="row">
         <div className="col-2 mt-3">
-          <p className="fw-light mb-0">Sorty By Election</p>
+          <p className="fw-lighter mb-0">Sorty By Election</p>
           <ListGroup
             items={elections}
             selectedItem={genre}

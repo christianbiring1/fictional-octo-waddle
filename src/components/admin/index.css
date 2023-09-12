@@ -22,7 +22,7 @@
   margin-left: 15%;
   overflow: hidden auto;
   font-family: 'Monserrat', sans-serif;
-  background-image: linear-gradient(to bottom, rgb(231, 233, 235), rgba(0, 0, 0, 0.25)), url('../../assets/candidates.webp');
+  background-image: linear-gradient(to right, rgb(231, 233, 235), rgba(0, 0, 0, 0.4)), url('../../assets/candidates.webp');
   background-size: cover;
   /* background-position: center center; */
   background-position: center top;

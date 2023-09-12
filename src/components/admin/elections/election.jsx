@@ -69,6 +69,7 @@ const Election = () => {
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Election ID</th>
             <th scope="col">Name</th>
             <th scope="col">Date</th>
             <th scope="col"></th>
@@ -78,6 +79,7 @@ const Election = () => {
           {elections.map((item, index) => (
             <tr key={item._id}>
               <td scope="row">{index + 1}</td>
+              <td scope="row">{item._id}</td>
               <td scope="row">{_.capitalize(item.name)}</td>
               <td scope="row">{item.date}</td>
               <td scope="row">

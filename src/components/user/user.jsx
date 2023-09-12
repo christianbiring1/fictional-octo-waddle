@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom'
+import _ from 'lodash';
 import { getCandidates } from '../services/candidateService';
 import { getVote ,vote } from '../services/voteService';
 import { toast } from 'react-toastify';
@@ -12,6 +13,7 @@ const MainPage = () => {
   const [candidates, setCandidates] = useState([]);
   const [result, setResult] = useState([]);
   const elector = JSON.parse(localStorage.getItem("electorInfo"));
+  if (!elector) window.location = '/user_login';
   // console.log(elector);
   useEffect(() => {
     async function fetchData() {
@@ -63,12 +65,19 @@ const MainPage = () => {
       <h1>Welcome to Voty!</h1>
       <p>You are connected as {elector.name}</p>
       <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
-      <div>
+      <div className='user_card'>
         {candidates.map((item) => (
           <div key={item._id} className="card" style={{width: '18rem'}}>
             <img src={`http://localhost:3000/uploads/${item.photo}`} className="card-img-top" alt={item.name + 'photo'} style={{height: '192px'}} />
             <div className="card-body">
-              <p className="card-text">{item.name}</p>
+              <p className='card-text'>
+                <span>First Name: </span>
+                <span>{_.capitalize(item.first_name)}</span>
+              </p>
+              <p className='card-text'>
+                <span>Last Name: </span>
+                <span>{_.capitalize(item.last_name)}</span>
+              </p>
               <p className='card-text'>
                 <span>Position: </span>
                 <span>{item.position.name}</span> 
