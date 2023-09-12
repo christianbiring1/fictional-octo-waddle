@@ -112,7 +112,7 @@ const AdminSignUp = () => {
         </div>
         {allErrors.password && <div className="text-danger error__message">{allErrors.password}</div>}
         <button type="submit" className="btn btn-primary" disabled={validate()}>Register</button>
-      <div>Already have an account? <Link to="/admin_login">LogIn</Link></div>
+      <div className="mt-3">Already have an account? <Link to="/admin_login" className="text-primary">LogIn</Link></div>
       </form>
     </div>
   );

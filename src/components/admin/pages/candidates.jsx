@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { useOnClickOutside } from "../../common/useonclickoutside";
 import { toast } from 'react-toastify';
+import Pagination from "../../common/pagination";
+import { paginate } from "../../utils/paginate";
+import ListGroup from "../../common/listGroup";
 import { getCandidates, deleteCandidate, postCandidate } from "../../services/candidateService";
 import { getElections, getPositions } from "../../services/electionService";
-import { useOnClickOutside } from "../../common/useonclickoutside";
 import './styles/elections.css';
+import './styles/candidate.css';
 
 
 const Candidates = () => {
@@ -19,6 +23,12 @@ const Candidates = () => {
   const partyRef = useRef();
   const photoRef = useRef();
 
+  const [pageSize, setPageSize] = useState(6); // eslint-disable-line
+  const [currentPage, setCurrentPage] = useState(1);
+  const [genre, setGenre] = useState("");
+
+
+
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
     async function fetchData() {
@@ -26,8 +36,8 @@ const Candidates = () => {
       const { data: elections } = await getElections();
       const { data: positions } = await getPositions()
       setCandidates(data);
-      setElections(elections);
-      setPositions(positions);
+      setElections( [{ name: 'All Elections', _id: ""}, ...elections]);
+      setPositions([{name: 'All Positions', _id: ""}, ...positions]);
     }
 
     fetchData();
@@ -78,43 +88,84 @@ const Candidates = () => {
 
   const capitalize = (str) => 
     str.charAt(0).toUpperCase() + str.slice(1);
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+    };
+
+    const handleElectionSelect = (election) => {
+      setGenre(election);
+      setCurrentPage(1)
+    }
+
+    const filtered = genre && genre._id
+      ? candidates.filter(c => c.election._id === genre._id)
+      : candidates;
+    
+    const allCandidates = paginate(filtered, currentPage, pageSize);
 
   return (
-    <div className="elections__container">
+    <div className="candidates__container">
       <h1>Candidates</h1>
-      <div className="create_election">
-        <button className='btn btn-primary mb-4 mt-2 add' onClick={handleCreateOpen}>Add candidate</button>
+      <div className="row">
+        <div className="col-2 mt-5">
+          <p className="fw-light">Sorty By Election</p>
+          <ListGroup
+            items={elections}
+            selectedItem={genre}
+            onItemSelect={handleElectionSelect}
+          />
+        </div>
+        <div className="col">
+          <p>Showing {filtered.length} Candidates in the database</p>
+          <div className="create_election">
+            <button className='btn btn-primary mb-4 mt-2 add' onClick={handleCreateOpen}>Add candidate</button>
+          </div>
+          <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Photo</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Political Party</th>
+                  <th scope="col">Position</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {allCandidates.map((item, index) => (
+                  <tr key={item._id}>
+                    <td scope="row">{index + 1}</td>
+                    <td scope="row">
+                      <img src={`http://localhost:3000/uploads/${item.photo}`} alt={item.name + 'image'} style={{width: '40px', height: '40px', borderRadius: '50%'}} />
+                    </td>
+                    <td scope="row">{capitalize(item.name)}</td>
+                    <td scope="row">{capitalize(item.position.name)}</td>
+                    <td scope="row">{item.political_party.toUpperCase()}</td>
+                    <td scope="row">
+                      <button onClick={() => handleDelete(item)} className="btn btn-danger btn-sm">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <Pagination
+              itemsCount={filtered.length}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+        </div>
+        <div className="col-2 mt-5">
+          <p className="fw-light">Sorty By Position</p>
+          <ListGroup
+            items={positions}
+            selectedItem={genre}
+            onItemSelect={handleElectionSelect}
+          />
+        </div>
       </div>
-      <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Photo</th>
-              <th scope="col">Name</th>
-              <th scope="col">Position</th>
-              <th scope="col">Political Party</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {candidates.map((item, index) => (
-              <tr key={item._id}>
-                <td scope="row">{index + 1}</td>
-                <td scope="row">
-                  <img src={`http://localhost:3000/uploads/${item.photo}`} alt={item.name + 'image'} style={{width: '40px', height: '40px', borderRadius: '50%'}} />
-                </td>
-                <td scope="row">{capitalize(item.name)}</td>
-                <td scope="row">{capitalize(item.position.name)}</td>
-                <td scope="row">{item.political_party.toUpperCase()}</td>
-                <td scope="row">
-                  <button onClick={() => handleDelete(item)} className="btn btn-danger btn-sm">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
         {
         createOpen && 
       <div className="create__form">

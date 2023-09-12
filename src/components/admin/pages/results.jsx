@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getCandidates } from "../../services/candidateService";
-
+import './styles/result.css'
 const Results = () => {
   const [candidates, setCandidates] = useState([]);
 
@@ -18,7 +18,7 @@ const Results = () => {
   return (
     <div>
       <h1>Results</h1>
-      <div className="candidate_container">
+      <div className="result_container">
         {candidates.map((item) => (
           <div key={item._id} className="card" style={{width: '18rem'}}>
               <img src={`http://localhost:3000/uploads/${item.photo}`} className="card-img-top" alt={item.name + 'photo'} style={{height: '192px'}} />

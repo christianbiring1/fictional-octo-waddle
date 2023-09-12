@@ -1,26 +1,37 @@
 .nav-bar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  padding: 1rem;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
-  /* color: #fff; */
+  width: 90%;
 }
 
 .header {
   text-align: center;
+  background-image: linear-gradient(45deg, #0D6EFD, #d4d6d1);
+  background-repeat: repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 a {
   text-decoration: none;
-  color: #000;
+  color: #333;
   transition: .195s;
 }
 
 a:hover {
-  color: blue;
+  color: #B0C4DE
+}
+
+.hero {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+  margin: 10px 0 0;
+}
+
+.hero .name {
+  font-weight: 100;
 }
 
 .hero p{

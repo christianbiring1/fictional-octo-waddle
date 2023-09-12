@@ -51,11 +51,11 @@ const SideBar = ({ user }) => {
   ]
   return (
     <div className='nav-bar'>
-      <h1 className='header'>My App</h1>
-      <h5>Welcome to voty!</h5>
+      <h1 className='header'>E-Vote</h1>
+      <h5>Welcome to e-voty!</h5>
       <div className="hero">
         <p>You are connected as</p>
-        <p>{_.capitalize(user.name)}</p>
+        <p className="name">{_.capitalize(user.name)}</p>
       </div>
       {navItem.map((item) => (
         <NavLink key={item.label} to={item.path}>

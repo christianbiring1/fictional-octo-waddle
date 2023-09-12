@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { toast } from 'react-toastify';
+import Pagination from '../../common/pagination';
+import { paginate } from '../../utils/paginate';
+import ListGroup from '../../common/listGroup';
 import { getElectors, deleteElectors, postElector, postImportElector } from '../../services/electorService';
 import { getElections } from '../../services/electionService';
-import Pagination from '../../common/pagination';
-import ListGroup from '../../common/listGroup';
-import { paginate } from '../../utils/paginate';
 import { Delete } from '@mui/icons-material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import './styles/elector.css';
@@ -115,8 +115,8 @@ const Electors = () => {
   return (
     <div className="elector__container">
       <div className="row">
-        <div className="col-3">
-          <h5 className='fw-lighter'>Available elections</h5>
+        <div className="col-3 mt-5">
+          <p className='fw-lighter'>Sort By Election</p>
           <ListGroup
             items={elections}
             selectedItem={genre}

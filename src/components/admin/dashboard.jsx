@@ -63,7 +63,7 @@ const DashBoard = () => {
               <p className="card-text fw-bold">Electors</p>
               <p className='card-text'>
                 <span className="fst-italic fw-light">Number of electors in the db are: </span>
-                <sapn>{electors.length}</sapn>
+                <span>{electors.length}</span>
               </p>
            </div>
           </div>
@@ -73,7 +73,7 @@ const DashBoard = () => {
               <p className="card-text fw-bold">Positions</p>
               <p className='card-text'>
                 <span className="fst-italic fw-light">Number of positions in the db are: </span>
-                <sapn>{positions.length}</sapn>
+                <span>{positions.length}</span>
               </p>
            </div>
           </div>
