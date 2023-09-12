@@ -107,7 +107,10 @@ const Candidates = () => {
     let filtered = candidates;
     if (searchQuery)
       filtered = candidates.filter(c =>
-      c.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) || c.last_name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      c.first_name.toLowerCase().startsWith(searchQuery.toLowerCase()) 
+        || c.last_name.toLowerCase().startsWith(searchQuery.toLowerCase())
+        || c.political_party.toLowerCase().startsWith(searchQuery.toLowerCase())
+        || c.position.name.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     else if (genre && genre._id)
         filtered = candidates.filter(c => c.election._id === genre._id);
