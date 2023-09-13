@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom'
 import _ from 'lodash';
-import { getCandidates } from '../services/candidateService';
+import { getCandidatesPerElectors } from '../services/candidateService';
 import { getVote ,vote } from '../services/voteService';
 import { toast } from 'react-toastify';
 
@@ -17,14 +17,14 @@ const MainPage = () => {
   // console.log(elector);
   useEffect(() => {
     async function fetchData() {
-      const { data } = await getCandidates();
+      const { data } = await getCandidatesPerElectors(elector._id);
       const {data: response} = await getVote();
       setCandidates(data);
       setResult(response);
     }
 
     fetchData()
-  }, []);
+  });
 
   console.log(result);
 //   const hideVote = (candidatePositionName) => {
