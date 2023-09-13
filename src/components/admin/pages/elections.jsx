@@ -7,11 +7,11 @@ const Elections = () => {
   return (
     <div className="elections__container">
       <h1>Elections</h1>
-      <div className="row" style={{marginTop: '3rem'}}>
-        <div className="col">
+      <div className="content">
+        <div className='election'>
           <Election />
         </div>
-        <div className="col-3">
+        <div className='position'>
           <Position />
         </div>
       </div>

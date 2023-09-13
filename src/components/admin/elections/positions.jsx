@@ -1,14 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import _ from 'lodash';
 import {toast} from 'react-toastify';
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto"; //eslint-disable-line
 import { useOnClickOutside } from '../../common/useonclickoutside';
 import { getPositions, deletePosistion, postPosition } from "../../services/electionService";
+import { getCandidates } from "../../services/candidateService";
 import { Delete } from "@mui/icons-material";
 
 
 const Position = () => {
 
   const [positions, setPositions] = useState([]);
+  const [candidates, setCandidates] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
 
   const ref = useRef();
@@ -20,7 +24,9 @@ const Position = () => {
 
     async function fetchData() {
       const { data } = await getPositions();
+      const { data: candidates } = await getCandidates();
       setPositions(data);
+      setCandidates(candidates);
     }
     fetchData();
   }, []);
@@ -60,6 +66,20 @@ const Position = () => {
     }
   };
 
+  const candidatesData = {
+    labels: positions.map(p => _.capitalize(p.name)),
+    datasets: [
+      {
+        label: 'Number of Candidates',
+        data: positions.map(position => 
+          candidates.filter(candidate => candidate.position.name === position.name).length),
+        backgroundColor: ['rgba(13, 100, 253, 0.8)', 'rgba(255, 165, 0, 0.4)', 'rgba(250, 0, 0, 0.5)'],
+        borderColor: '#333',
+        // borderWidth: 2
+      },
+    ],
+  };
+
 
   return (
     <div>
@@ -68,9 +88,9 @@ const Position = () => {
           >
             Add Position
         </button>
-        <ul className="list-group">
+        <ul className="list-group mb-5">
           {positions.map(item => (
-            <li key={item._id} className="list-group-item" style={{display: 'flex', justifyContent: 'space-around'}}>
+            <li key={item._id} className="list-group-item" style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
               <span>{_.capitalize(item.name)}</span>
               <span>
                 <Delete  style={{cursor: 'pointer', color: '#ff6a74'}} onClick={() => handleDelete(item)}/>
@@ -78,6 +98,9 @@ const Position = () => {
             </li>
           ))}
         </ul>
+        <div>
+          <Pie data={candidatesData} />
+        </div>
       {
         createOpen && 
       <div className="create__form">

@@ -1,12 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import _ from 'lodash';
 import { toast } from "react-toastify";
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS } from 'chart.js/auto'; // eslint-disable-line
 import { useOnClickOutside } from '../../common/useonclickoutside';
+import { getElectors } from "../../services/electorService";
 import { getElections, deleteElection, postElection } from '../../services/electionService';
 
 const Election = () => {
   
   const [elections, setElections] = useState([]);
+  const [electors, setElectors] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
 
   const ref = useRef();
@@ -17,7 +21,9 @@ const Election = () => {
 
     async function fetchData() {
       const { data } = await getElections();
+      const { data: electors } = await getElectors();
       setElections(data);
+      setElectors(electors);
     }
     fetchData();
   }, []);
@@ -57,6 +63,20 @@ const Election = () => {
     }
   }
 
+  const electorsData = {
+    labels : elections.map(e => _.capitalize(e.name)),
+    datasets: [
+      {
+        label: 'Number of Electors',
+        data: elections.map(election =>
+          electors.filter(elector => elector.election._id === election._id).length),
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: '#333',
+          borderWidth: 2
+      },
+    ],
+  };
+
 
   return (
     <div>
@@ -93,6 +113,9 @@ const Election = () => {
           ))}
         </tbody>
       </table>
+      <div>
+        <Bar data={electorsData} />
+      </div>
       {
         createOpen && 
       <div className="create__form">

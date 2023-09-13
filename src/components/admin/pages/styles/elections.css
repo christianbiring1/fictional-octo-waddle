@@ -1,8 +1,17 @@
 .elections__container {
   font-size: 1rem;
-  width: 75%;
+  width: 90%;
   margin: 0 auto;
   /* position: relative; */
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+}
+
+.election {
+  width: 60%;
 }
 
 .wrapper {

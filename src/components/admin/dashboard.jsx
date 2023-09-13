@@ -57,7 +57,7 @@ const DashBoard = () => {
         label: 'Number of Electors',
         data: elections.map((election) =>
           electors.filter((el) => el.election._id === election._id).length),
-        backgroundColor: 'rgba(75, 192, 192, 0.6',
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'black',
         borderWidth: 2
       },
