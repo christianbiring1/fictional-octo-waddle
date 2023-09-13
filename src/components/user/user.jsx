@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { getCandidatesPerElectors } from '../services/candidateService';
 import { getVote ,vote } from '../services/voteService';
 import { toast } from 'react-toastify';
+import Footer from './footer';
 
 import './user.css'
 
@@ -30,9 +31,8 @@ const MainPage = () => {
 //   const hideVote = (candidatePositionName) => {
 //   return result.some((vote) => vote.candidate.position.name === candidatePositionName);
 // };
-   const hideVote = (candidatePositionName) => {
-  const userHasVoted = result.some((vote) => vote.elector.id === elector.id);
-  return userHasVoted && result.some((vote) => vote.candidate.position.name === candidatePositionName);
+  const hideVote = () => {
+   return result.some((vote) => vote.elector.id === elector.id);
 };
 
 
@@ -42,7 +42,7 @@ const MainPage = () => {
 
     try {
       await vote(candidateId, electorId);
-      toast.success('Your vote have been submitted successfully! :-)');
+      toast.success('Your vote have been submitted successfully!');
 
       setTimeout(() => {
         window.location = "/user"
@@ -51,7 +51,6 @@ const MainPage = () => {
       if (error.response)
         toast.error(error.response.data);
     }
-    console.log(candidateId, electorId);
   };
 
   const handleLogOut = () => {
@@ -63,6 +62,9 @@ const MainPage = () => {
   return (
     <div className='user_container'>
       <h1>Welcome to Voty!</h1>
+      {hideVote() &&
+        <p className='alert alert-info fw-light'>You have already voted for this election!. Please come on later for the next one!</p>
+      }
       <p>You are connected as {elector.name}</p>
       <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
       <div className='user_card'>
@@ -88,7 +90,7 @@ const MainPage = () => {
               </p>
            </div>
            {
-            !hideVote(item.position.name) && (
+            !hideVote() && (
             <button 
                 type='button'
                 className="btn btn-success"
@@ -100,6 +102,7 @@ const MainPage = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 }
