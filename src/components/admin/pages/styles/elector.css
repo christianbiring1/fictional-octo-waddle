@@ -32,6 +32,10 @@
   border-radius: 50%;
 }
 
+.import-data:hover {
+  border: 1px solid #333;
+}
+
 .import_form-container.active {
   position: absolute;
   background-color: rgba(31, 29, 29, 0.8);
@@ -58,8 +62,19 @@
 }
 
 .import-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   float: right;
   border: none;
-  background-color: transparent;
   opacity: 0.5;
+  width: 25px;
+  height: 25px;
+  transition: all .5s;
+  padding: .2rem;
+}
+
+.import-btn:hover {
+  background-color: rgba(128, 128, 128, .8);
+  border-radius: 1px;
 }

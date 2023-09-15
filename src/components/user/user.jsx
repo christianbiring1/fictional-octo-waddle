@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import _ from 'lodash';
 import { getCandidatesPerElectors } from '../services/candidateService';
 import { getVote ,vote } from '../services/voteService';
@@ -10,11 +10,12 @@ import './user.css'
 
 const MainPage = () => {
 
-  // const history = useHistory();
+  const navigate = useNavigate();
+
   const [candidates, setCandidates] = useState([]);
   const [result, setResult] = useState([]);
   const elector = JSON.parse(localStorage.getItem("electorInfo"));
-  if (!elector) window.location = '/user_login';
+  if (!elector) navigate('/user_login');
   // console.log(elector);
   useEffect(() => {
     async function fetchData() {
@@ -55,18 +56,21 @@ const MainPage = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("electorInfo");
-    // history.push('/user_login');
-    window.location = "/user_login"
+    navigate("/user_login")
   };
 
   return (
     <div className='user_container'>
-      <h1>Welcome to Voty!</h1>
-      {hideVote() &&
-        <p className='alert alert-info fw-light'>You have already voted for this election!. Please come on later for the next one!</p>
-      }
-      <p>You are connected as {elector.name}</p>
-      <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
+      <div className="user-top">
+        <div className="user_header">
+          <h1>Welcome to Voty!</h1>
+          <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
+        </div>
+        <p className='user_name'>You are connected as {elector.name}</p>
+        {hideVote() &&
+          <p className='alert alert-info fw-light' style={{width: '50%'}}>You have already voted for this election!. Please come on later for the next one!</p>
+        }
+      </div>
       {candidates.legth ? (
         <p>We don&apos;t have any election at this time around, Check on later!</p>
       ) : (

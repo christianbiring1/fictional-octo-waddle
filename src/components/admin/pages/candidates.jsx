@@ -118,7 +118,6 @@ const Candidates = () => {
 
   return (
     <div className="candidates__container">
-      <h1>Candidates</h1>
       <div className="row">
         <div className="col-2 mt-3">
           <p className="fw-lighter mb-0">Sorty By Election</p>
@@ -129,6 +128,7 @@ const Candidates = () => {
           />
         </div>
         <div className="col">
+          <h1>Candidates</h1>
           <p>Showing {filtered.length} Candidates in the database</p>
           <div className="create_election">
             <button className='btn btn-primary mt-2 add' onClick={handleCreateOpen}>Add candidate</button>

@@ -6,12 +6,13 @@ import './styles/elections.css';
 const Elections = () => {
   return (
     <div className="elections__container">
-      <h1>Elections</h1>
       <div className="content">
         <div className='election'>
+        <h1>Elections</h1>
           <Election />
         </div>
         <div className='position'>
+        <h1>Positions</h1>
           <Position />
         </div>
       </div>

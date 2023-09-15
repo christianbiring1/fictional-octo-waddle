@@ -1,9 +1,12 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogOut = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     localStorage.removeItem("token");
-    window.location = "/admin_login"
+    navigate("/admin_login")
   })
   return null;
 }

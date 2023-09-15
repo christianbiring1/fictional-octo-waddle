@@ -153,7 +153,7 @@ const Electors = () => {
             <button className='btn btn-primary mb-3 mt-2 add' onClick={handleCreateOpen}>New Elector</button>
             <span className='import_zone'>
               <span className='import-text'>
-                or import in an excel doc
+                or import an excel file
               </span>
               <button className='import-data' onClick={importForm}>
                 <UploadFileIcon style={{color: '#333'}} />
@@ -200,7 +200,7 @@ const Electors = () => {
         <button type='button' className='import-btn' onClick={importForm}>X</button>
           <div className="mb-1">
             <label htmlFor="file" className='form-label'>Import Elector details*</label><br />
-            <input type="file"  name="file"  className='form-control-file' id='file' ref={fileRef}/><br />
+            <input type="file"  name="file"  className='form-control-file' id='file' ref={fileRef} accept='.xlsx' required/><br />
           </div>
           <button type='submit' className="btn btn-primary">Upload</button>
         </form>
