@@ -133,7 +133,11 @@ const Candidates = () => {
           <div className="create_election">
             <button className='btn btn-primary mt-2 add' onClick={handleCreateOpen}>Add candidate</button>
           </div>
-          <SearchBox value={searchQuery} onChange={handleSearch}/>
+          <SearchBox
+            value={searchQuery}
+            onChange={handleSearch}
+            placeholder={'Search by names, party or position.....'}
+          />
           <table className="table">
               <thead>
                 <tr>

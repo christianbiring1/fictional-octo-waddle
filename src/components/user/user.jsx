@@ -67,7 +67,10 @@ const MainPage = () => {
       }
       <p>You are connected as {elector.name}</p>
       <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
-      <div className='user_card'>
+      {candidates.legth ? (
+        <p>We don&apos;t have any election at this time around, Check on later!</p>
+      ) : (
+        <div className='user_card'>
         {candidates.map((item) => (
           <div key={item._id} className="card" style={{width: '18rem'}}>
             <img src={`http://localhost:3000/uploads/${item.photo}`} className="card-img-top" alt={item.name + 'photo'} style={{height: '192px'}} />
@@ -102,6 +105,7 @@ const MainPage = () => {
           </div>
         ))}
       </div>
+      )}
       <Footer />
     </div>
   );

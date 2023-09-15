@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 
-const SearchBox = ({ value, onChange }) => {
+const SearchBox = ({ value, onChange, placeholder }) => {
   return (
     <input
       type="text"
       name="query"
       className="form-control my-3"
-      placeholder="Search..."
+      placeholder={placeholder}
       value={value}
       onChange={e => onChange(e.currentTarget.value)}
     />
@@ -15,7 +15,8 @@ const SearchBox = ({ value, onChange }) => {
 
 SearchBox.propTypes = {
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
 }
  
 export default SearchBox;

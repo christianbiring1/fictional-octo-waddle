@@ -118,11 +118,15 @@ const Electors = () => {
   const handleImportPost = async (e) => {
     e.preventDefault();
     const FILE = fileRef.current.files[0];
-    console.log(FILE)
+
     try {
       await postImportElector(FILE);
-      window.location = "/electors";
-      setImportVisible(!importVisible)
+      toast.success('Elector data imported successfully!')
+
+      setTimeout(() => {
+        window.location = "/electors";
+        setImportVisible(!importVisible)
+      }, 2000)
     } catch (error) {
       if (error)
         toast.error(error.response.data)
@@ -143,14 +147,20 @@ const Electors = () => {
           />
         </div>
         <div className="col ms-5">
+          <h1>Electors</h1>
           <p>Showing {filtered.length} Electors in the database</p>
           <div className="create_elector">
             <button className='btn btn-primary mb-3 mt-2 add' onClick={handleCreateOpen}>New Elector</button>
-            <button className=' btn import-data' onClick={importForm}>
-              <UploadFileIcon />
-            </button>
+            <span className='import_zone'>
+              <span className='import-text'>
+                or import in an excel doc
+              </span>
+              <button className='import-data' onClick={importForm}>
+                <UploadFileIcon style={{color: '#333'}} />
+              </button>
+            </span>
           </div>
-          <SearchBox  value={searchQuery} onChange={handleSearch}/>
+          <SearchBox  value={searchQuery} onChange={handleSearch} placeholder={'Search by name, election or address...'}/>
           <table className="table">
             <thead>
               <tr>
@@ -186,13 +196,13 @@ const Electors = () => {
         </div>
       </div>
       <div className={!importVisible ? 'import_form-container': 'import_form-container active'}>
-        <form method='post' onSubmit={handleImportPost} className={!importVisible ? 'import_form': 'import_form active'} encType="multipart/form-data">
+        <form method='POST' onSubmit={handleImportPost} className={!importVisible ? 'import_form': 'import_form active'} encType="multipart/form-data">
         <button type='button' className='import-btn' onClick={importForm}>X</button>
           <div className="mb-1">
             <label htmlFor="file" className='form-label'>Import Elector details*</label><br />
-            <input type="file"  name="excelFile"  className='form-control-file' accept='.xlsx, xls' ref={fileRef}/><br />
+            <input type="file"  name="file"  className='form-control-file' id='file' ref={fileRef}/><br />
           </div>
-          <button type='submit' className="btn btn-primary">Submit</button>
+          <button type='submit' className="btn btn-primary">Upload</button>
         </form>
       </div>
         {

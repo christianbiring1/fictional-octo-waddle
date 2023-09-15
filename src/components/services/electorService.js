@@ -11,11 +11,10 @@ export function postElector(name, id, province, electionId) {
 }
 
 export function postImportElector(file) {
-  return http.post('http://localhost:3000/api/electors/upload-excel', file,
+  return http.post('http://localhost:3000/api/electors/upload-excel', {file},
    {
     headers: {'Content-Type': 'multipart/form-data'}
-  }
-  )
+  })
 }
 
 export function deleteElectors(electorId) {
