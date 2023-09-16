@@ -5,8 +5,7 @@
   right: 0;
   bottom: 0;
   font-family: 'Monserrat', sans-serif;
-  /* background-color: rgb(192, 189, 189); */
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.25)), url('../../assets/candidates.webp');
+  /* background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.25)), url('../../assets/candidates.webp'); */
     background-size: cover;
     background-position: center center;
     background-position: center top;
@@ -18,6 +17,7 @@
   margin: 5rem auto;
   font-size: 1rem;
   background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
   padding: 2rem;
   border-radius: 10px;
 }
@@ -30,13 +30,12 @@ form h1 {
   width: 40%;
   height: auto;
   margin: 0 auto;
-  display: none;
 }
 
 .logo_container img {
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 
 .user_login .btn {

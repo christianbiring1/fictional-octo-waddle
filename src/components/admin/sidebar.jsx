@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import GroupsIcon from '@mui/icons-material/Groups';
 import RuleIcon from '@mui/icons-material/Rule';
@@ -7,8 +8,8 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import HelpIcon from '@mui/icons-material/Help';
+import logo from '../../assets/logo.png';
 import './sidebar.css';
-import _ from "lodash";
 
 const SideBar = ({ user }) => {
 
@@ -51,7 +52,9 @@ const SideBar = ({ user }) => {
   ]
   return (
     <div className='nav-bar'>
-      <h1 className='header'>E-Vote</h1>
+      <div className="logo_container">
+      <img src={logo} alt="page_logo"  style={{width: '70%', height: 'auto', marginTop: '-3rem'}}/>
+      </div>
       <h5>Welcome to e-voty!</h5>
       <div className="hero">
         <p>You are connected as</p>
@@ -61,7 +64,7 @@ const SideBar = ({ user }) => {
         <NavLink key={item.label} to={item.path}>
           <ul className='navbar__list'>
             <li className='nav__item'>
-              <span className='icon'>{item.icon}</span>
+              <span className='icon' style={{color:"fff"}}>{item.icon}</span>
               <span className='label'>{item.label}</span>
             </li>
           </ul>

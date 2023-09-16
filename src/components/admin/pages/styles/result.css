@@ -1,8 +1,8 @@
 .result_container {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  font-size: 1rem;
+  gap: 1rem; */
+  font-size: 0.9rem;
 }
 
 /* .card {

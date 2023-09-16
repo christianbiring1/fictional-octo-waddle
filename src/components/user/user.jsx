@@ -28,16 +28,9 @@ const MainPage = () => {
     fetchData()
   });
 
-  console.log(result);
-//   const hideVote = (candidatePositionName) => {
-//   return result.some((vote) => vote.candidate.position.name === candidatePositionName);
-// };
   const hideVote = () => {
    return result.some((vote) => vote.elector.id === elector.id);
 };
-
-
-  console.log(hideVote())
 
   const handleVote = async (candidateId, electorId) => {
 
@@ -66,7 +59,6 @@ const MainPage = () => {
           <h1>Welcome to Voty!</h1>
           <button className="btn btn-primary btn-sm mb-5" onClick={handleLogOut} >LogOut</button>
         </div>
-        <p className='user_name'>You are connected as {elector.name}</p>
         {hideVote() &&
           <p className='alert alert-info fw-light' style={{width: '50%'}}>You have already voted for this election!. Please come on later for the next one!</p>
         }
