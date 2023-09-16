@@ -6,6 +6,7 @@ import DashBoard from './dashboard';
 import Elections from "./pages/elections";
 import Candidates from "./pages/candidates";
 import Electors from "./pages/electors";
+import EditElector from "./pages/editElector";
 import Results from "./pages/results";
 // import AdminLogin from "./registration/log_in";
 import AdminLogOut from "./registration/logout";
@@ -32,6 +33,7 @@ const Admin = () => {
         <Routes>
           <Route path="/elections" element={<Elections />}/>
           <Route path="/candidates" element={<Candidates />}/>
+          <Route path="/edit-elector/:id" element={<EditElector />}/>
           <Route path="/electors" element={<Electors />}/>
           <Route path="/results" element={<Results />}/>
           <Route path="/guidelines" element={<GuideLines />} />

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import { useOnClickOutside } from '../../common/useonclickoutside';
@@ -10,6 +11,7 @@ import { getElectors, deleteElectors, postElector, postImportElector } from '../
 import { getElections } from '../../services/electionService';
 import { Delete } from '@mui/icons-material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import EditIcon from '@mui/icons-material/Edit';
 import './styles/elector.css';
 
 const Electors = () => {
@@ -30,6 +32,7 @@ const Electors = () => {
   const [searchQuery, setSearchQuery] = useState("");
   
   const ref = useRef();
+  const navigate = useNavigate();
 
 
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
@@ -61,6 +64,10 @@ const Electors = () => {
       setElectors(originalElectors);
     }
   };
+
+  const handleEdit = (elector) => {
+    navigate(`/edit-elector/${elector._id}`)
+  }
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -170,6 +177,7 @@ const Electors = () => {
                 <th scope="col">Province</th>
                 <th scope="col">Election</th>
                 <th scope="col"></th>
+                <th scope="col"></th>
               </tr>
             </thead>
               <tbody>
@@ -180,6 +188,9 @@ const Electors = () => {
                     <td scope="row">{item.id}</td>
                     <td scope="row">{_.capitalize(item.province)}</td>
                     <td scope="row">{_.capitalize(item.election.name)}</td>
+                    <td scope='row'>
+                      <EditIcon onClick={() => handleEdit(item)} style={{cursor: 'pointer'}}/>  
+                    </td>
                     <td scope="row">
                       <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
                     </td>

@@ -24,9 +24,9 @@
   margin-left: 15%;
   overflow: hidden auto;
   font-family: 'Monserrat', sans-serif;
-  /* background-image: linear-gradient(to right, rgb(231, 233, 235), rgba(230, 230, 230, 0.4)), url('../../assets/candidates.webp'); */
+  background-image: linear-gradient(to right, rgb(231, 233, 235), rgba(230, 230, 230, 0.4)), url('../../assets/candidates.webp');
   background-size: cover;
-  background-color: rgba(189, 189, 201, 0.5);
+  /* background-color: rgba(189, 189, 201, 0.5); */
   /* background-position: center center; */
   background-position: center top;
   background-repeat: no-repeat;

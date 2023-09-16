@@ -34,7 +34,7 @@ const Results = () => {
 
 // Use the reduce method to find the candidate with the most votes
 filtered.reduce((maxVotes, candidate) => {
-  if (candidate.voice > maxVotes) {
+  if (candidate.voice >= maxVotes) {
     candidateWithMostVotes = candidate;
     return candidate.voice;
   }
@@ -45,9 +45,8 @@ console.log("Candidate with the most votes:", candidateWithMostVotes);
 
   return (
     <div className="result_container">
-      <h1>Results</h1>
       <div className="row">
-        <div className="col-2">
+        <div className="col-2 mt-2">
           <div className="fw-lighter mb-0">Sort By Election</div>
           <ListGroup
             items={elections}
@@ -64,20 +63,20 @@ console.log("Candidate with the most votes:", candidateWithMostVotes);
                   <img src={`http://localhost:3000/uploads/${item.photo}`} className="card-img-top" alt={item.name + 'photo'} style={{height: '192px'}} />
                   <div className="card-body">
                     <p className="card-text">
-                      <span className="fw-bold">First Name: </span>
-                      <span>{_.capitalize(item.first_name)}</span>
+                      <span>First Name: </span>
+                      <span className="fw-light">{_.capitalize(item.first_name)}</span>
                     </p>
                     <p className="card-text">
-                      <span className="fw-bold">Last Name: </span>
-                      <span>{_.capitalize(item.last_name)}</span>
+                      <span>Last Name: </span>
+                      <span className="fw-light">{_.capitalize(item.last_name)}</span>
                     </p>
                     <p className="card-text">
-                      <span className="fw-bold">Political Party: </span>
-                      <span>{item.political_party.toUpperCase()}</span>
+                      <span>Political Party: </span>
+                      <span className="fw-light">{item.political_party.toUpperCase()}</span>
                     </p>
                     <p className='card-text'>
-                      <span className="fw-bold">Voice: </span>
-                      <span>{item.voice}</span>
+                      <span>Voice: </span>
+                      <span className="fw-light">{item.voice}</span>
                     </p>
                 </div>
                 </div>
