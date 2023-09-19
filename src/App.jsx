@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Login from './components/admin/registration/log_in'
-// import SideBar from './components/admin/sidebar'
 import UserLogin from './components/user/login'
 import UserDetails from './components/user/userDetails';
 import MainPage from './components/user/user'

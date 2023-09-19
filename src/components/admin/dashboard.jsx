@@ -80,7 +80,7 @@ const DashBoard = () => {
 
   return (
     <div className="">
-      <h1>Admin Dashboard</h1>
+      <h3 className="text-primary">Dashboard</h3>
       <div className="container">
           <div className="card" style={{width: '18rem'}}>
             <img src={candidate} className="card-img-top" alt= 'election-photo' style={{height: '192px'}} />

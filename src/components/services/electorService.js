@@ -14,6 +14,12 @@ export function postElector(name, id, province, electionId) {
   });
 }
 
+export function postUpdateElector(elector_id, name, id, province, electionId) {
+  return http.put('http://localhost:3000/api/electors/'+ elector_id, {
+    name, id, province, electionId
+  });
+}
+
 export function postImportElector(file) {
   return http.post('http://localhost:3000/api/electors/upload-excel', {file},
    {

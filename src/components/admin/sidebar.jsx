@@ -55,7 +55,7 @@ const SideBar = ({ user }) => {
       <div className="logo_container">
       <img src={logo} alt="page_logo"  style={{width: '70%', height: 'auto', marginTop: '-3rem'}}/>
       </div>
-      <h5>Welcome to e-voty!</h5>
+      <h5>Voting System</h5>
       <div className="hero">
         <p>You are connected as</p>
         <p className="name">{_.capitalize(user.name)}</p>
