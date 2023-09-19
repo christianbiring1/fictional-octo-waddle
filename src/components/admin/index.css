@@ -8,8 +8,8 @@
   position: fixed;
   height: 100%;
   width: 15%;
-  background-color: rgb(13, 110, 253);
-  color: #fff;
+  color: rgb(13, 110, 253);
+  background-color: #fff;
   overflow-y: auto; /* Enable vertical scrolling for the sidebar if needed */
   /* flex: 0 0 auto; */
   display: flex;

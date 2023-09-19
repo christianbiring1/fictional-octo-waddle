@@ -8,10 +8,10 @@ body {
 
 a {
   text-decoration: none;
-  color: #fff;
+  color: blue;
   transition: .195s;
 }
 
-a:hover {
+/* a:hover {
   color: blue;
-}
+} */

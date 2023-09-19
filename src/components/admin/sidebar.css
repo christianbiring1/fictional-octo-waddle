@@ -55,7 +55,9 @@ a:hover {
 }
 
 .nav__item:hover {
-  background-color: rgba(214, 218, 221, 0.75);
+  /* background-color: rgba(214, 218, 221, 0.75); */
+  background-color: blue;
+  color: #fff;
   border-radius: 5px;
 }
 

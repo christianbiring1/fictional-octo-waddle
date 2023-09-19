@@ -33,7 +33,7 @@ const Admin = () => {
         <Routes>
           <Route path="/elections" element={<Elections />}/>
           <Route path="/candidates" element={<Candidates />}/>
-          <Route path="/edit-elector/:id" element={<EditElector />}/>
+          <Route path="/edit-elector/:user_id" element={<EditElector />}/>
           <Route path="/electors" element={<Electors />}/>
           <Route path="/results" element={<Results />}/>
           <Route path="/guidelines" element={<GuideLines />} />
