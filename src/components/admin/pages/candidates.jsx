@@ -128,7 +128,7 @@ const Candidates = () => {
           />
         </div>
         <div className="col">
-          <h1>Candidates</h1>
+          <h3 className="text-primary">Candidates</h3>
           <p>Showing {filtered.length} Candidates in the database</p>
           <div className="create_election">
             <button className='btn btn-primary mt-2 add' onClick={handleCreateOpen}>Add candidate</button>

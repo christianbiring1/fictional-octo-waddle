@@ -13,6 +13,10 @@
   -webkit-text-fill-color: transparent;
 }
 
+.app_name {
+  text-align: center;
+  font-weight: bold;
+}
 a {
   text-decoration: none;
   /* color: #333; */
@@ -20,9 +24,9 @@ a {
   transition: .195s;
 }
 
-a:hover {
+/* a:hover {
   color: #B0C4DE
-}
+} */
 
 .hero {
   text-align: center;
@@ -52,6 +56,12 @@ a:hover {
   padding: 0.5rem;
   margin: 0;
   transition: .195s;
+}
+
+a.active .nav__item {
+  background-color: blue;
+  color: #fff;
+  border-radius: 5px;
 }
 
 .nav__item:hover {

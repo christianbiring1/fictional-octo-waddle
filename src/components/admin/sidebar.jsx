@@ -8,6 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import HelpIcon from '@mui/icons-material/Help';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import logo from '../../assets/logo.png';
 import './sidebar.css';
 
@@ -45,6 +46,11 @@ const SideBar = ({ user }) => {
       icon: <HelpIcon />
     },
     {
+      path: '/user_login',
+      label: 'Elector Login',
+      icon: <SupervisedUserCircleIcon />
+    },
+    {
       path: '/admin_logout',
       label: 'Logout',
       icon: <ExitToAppIcon />
@@ -53,9 +59,9 @@ const SideBar = ({ user }) => {
   return (
     <div className='nav-bar'>
       <div className="logo_container">
-      <img src={logo} alt="page_logo"  style={{width: '70%', height: 'auto', marginTop: '-3rem'}}/>
+      <img src={logo} alt="page_logo"  style={{width: '70%', height: 'auto', marginTop: '0rem'}}/>
       </div>
-      <h5>Voting System</h5>
+      <h5 className="app_name">Voting System</h5>
       <div className="hero">
         <p>You are connected as</p>
         <p className="name">{_.capitalize(user.name)}</p>

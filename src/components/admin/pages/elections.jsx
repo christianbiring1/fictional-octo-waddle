@@ -8,7 +8,7 @@ const Elections = () => {
     <div className="elections__container">
       <div className="content">
         <div className='election'>
-        <h1>Elections</h1>
+        <h3 className='text-primary'>Elections</h3>
           <Election />
         </div>
         <div className='position'>

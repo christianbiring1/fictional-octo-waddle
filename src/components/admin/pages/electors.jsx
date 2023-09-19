@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import { useOnClickOutside } from '../../common/useonclickoutside';
@@ -154,13 +154,13 @@ const Electors = () => {
           />
         </div>
         <div className="col ms-5">
-          <h1>Electors</h1>
+          <h3 className='text-primary'>Electors</h3>
           <p>Showing {filtered.length} Electors in the database</p>
           <div className="create_elector">
             <button className='btn btn-primary mb-3 mt-2 add' onClick={handleCreateOpen}>New Elector</button>
             <span className='import_zone'>
               <span className='import-text'>
-                or import an excel file
+                or import .xlsx file
               </span>
               <button className='import-data' onClick={importForm}>
                 <UploadFileIcon style={{color: '#333'}} />
@@ -184,12 +184,16 @@ const Electors = () => {
                 {allElectors.map((item, index) => (
                   <tr key={item._id}>
                     <td scope="row">{index + 1}</td>
-                    <td scope="row">{_.capitalize(item.name)}</td>
+                    <td scope="row">
+                      <Link to={`/edit-elector/${item._id}`}>
+                      {_.capitalize(item.name)}
+                      </Link>
+                    </td>
                     <td scope="row">{item.id}</td>
                     <td scope="row">{_.capitalize(item.province)}</td>
                     <td scope="row">{_.capitalize(item.election.name)}</td>
                     <td scope='row'>
-                      <EditIcon onClick={() => handleEdit(item)} style={{cursor: 'pointer'}}/>  
+                      <EditIcon onClick={() => handleEdit(item)} style={{cursor: 'pointer', color: 'blue'}}/>  
                     </td>
                     <td scope="row">
                       <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
