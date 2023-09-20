@@ -57,7 +57,7 @@ const AdminLogin = () => {
       const {email, password } = account;
       const { data: jwt } = await login(email, password);
       localStorage.setItem('token', jwt);
-      window.location = '/'
+      window.location = '/admin_dashboard'
     } catch (error) {
       if (error.response && error.response.status === 400)
         toast.error(error.response.data);
