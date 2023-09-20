@@ -16,7 +16,7 @@ const SideBar = ({ user }) => {
 
   const navItem = [
     {
-      path: '/',
+      path: '/admin_dashboard',
       label: 'Dashboard',
       icon: <DashboardIcon />
     },
@@ -41,14 +41,14 @@ const SideBar = ({ user }) => {
       icon: <CheckCircleOutlineIcon />
     },
     {
-      path: '/guidelines',
-      label: 'Guidelines',
-      icon: <HelpIcon />
+      path: '/manage_admins',
+      label: 'Manage Roles',
+      icon: <SupervisedUserCircleIcon />
     },
     {
       path: '/user_login',
       label: 'Elector Login',
-      icon: <SupervisedUserCircleIcon />
+      icon: <HelpIcon />
     },
     {
       path: '/admin_logout',

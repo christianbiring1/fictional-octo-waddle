@@ -10,8 +10,9 @@ import EditElector from "./pages/editElector";
 import Results from "./pages/results";
 // import AdminLogin from "./registration/log_in";
 import AdminLogOut from "./registration/logout";
-import GuideLines from "./pages/guidelines";
+// import GuideLines from "./pages/guidelines";
 import './index.css';
+import AdminSignUp from "./registration/sign_up";
 
 
 const Admin = () => {
@@ -36,9 +37,9 @@ const Admin = () => {
           <Route path="/edit-elector/:user_id" element={<EditElector />}/>
           <Route path="/electors" element={<Electors />}/>
           <Route path="/results" element={<Results />}/>
-          <Route path="/guidelines" element={<GuideLines />} />
+          <Route path="/manage_admins" element={<AdminSignUp />} />
           <Route path="/admin_logout" element={<AdminLogOut />} />
-          <Route path="/" element={<DashBoard/>} />
+          <Route path="/admin_dashboard" element={<DashBoard/>} />
         </Routes>
       </div>
     </div>
