@@ -2,7 +2,7 @@ import { useState } from "react";
 import Joi from "joi-browser";
 import { register } from "../../services/userService";
 import { toast } from "react-toastify";
-import './admin-register.css';
+// import './admin-register.css';
 
 const AdminSignUp = () => {
   const [account, setAccount] = useState({
@@ -57,7 +57,7 @@ const AdminSignUp = () => {
     try {
       const response = await register(account);
       localStorage.setItem("token", response.headers["x-auth-token"]);
-      window.location = "/";
+      window.location = "/admin_dashboard";
     } catch (error) {
       if (error.response && error.response.status === 400) {
         toast.info(error.response.data);
@@ -72,7 +72,7 @@ const AdminSignUp = () => {
   }
 
   return (
-    <div className="admin_register">
+    <div className="user_login">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>

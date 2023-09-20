@@ -1,4 +1,5 @@
 import {useState} from "react";
+import { Link } from "react-router-dom";
 import Joi from "joi-browser";
 import { login } from '../../services/authService';
 import { toast } from "react-toastify";
@@ -110,6 +111,7 @@ const AdminLogin = () => {
           <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
         </div>
         <button type="submit" className="btn btn-primary" disabled={validate()}>Login</button>
+        <div>Dont have an account yet <Link to="/admin_register" className="text-primary mt-2">Register</Link></div>
       </form>
     </div>
   )

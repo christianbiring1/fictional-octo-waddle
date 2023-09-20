@@ -6,7 +6,7 @@ const AdminLogOut = () => {
 
   useEffect(() => {
     localStorage.removeItem("token");
-    navigate("/admin_login")
+    navigate("/")
   })
   return null;
 }
