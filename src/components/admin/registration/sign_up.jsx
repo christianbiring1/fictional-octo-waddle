@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import Joi from "joi-browser";
 import { register } from "../../services/userService";
 import { toast } from "react-toastify";
+import './admin-register.css';
 
 const AdminSignUp = () => {
   const [account, setAccount] = useState({
@@ -72,7 +72,7 @@ const AdminSignUp = () => {
   }
 
   return (
-    <div className="user_login">
+    <div className="admin_register">
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>
@@ -112,7 +112,6 @@ const AdminSignUp = () => {
         </div>
         {allErrors.password && <div className="text-danger error__message">{allErrors.password}</div>}
         <button type="submit" className="btn btn-primary" disabled={validate()}>Register</button>
-      <div className="mt-3">Already have an account? <Link to="/admin_login" className="text-primary">LogIn</Link></div>
       </form>
     </div>
   );

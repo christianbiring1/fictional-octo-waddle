@@ -7,7 +7,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
-import HelpIcon from '@mui/icons-material/Help';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import logo from '../../assets/logo.png';
 import './sidebar.css';
@@ -48,7 +48,7 @@ const SideBar = ({ user }) => {
     {
       path: '/user_login',
       label: 'Elector Login',
-      icon: <HelpIcon />
+      icon: <AccountBoxIcon />
     },
     {
       path: '/admin_logout',
