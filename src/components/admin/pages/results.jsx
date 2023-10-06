@@ -3,7 +3,9 @@ import _ from 'lodash';
 import { getCandidates } from "../../services/candidateService";
 import ListGroup from "../../common/listGroup";
 import { getElections } from "../../services/electionService";
+import { getResults } from "../../services/voteService";
 import './styles/result.css'
+import { toast } from "react-toastify";
 
 
 const Results = () => {
@@ -27,6 +29,39 @@ const Results = () => {
     setGenre(election);
   };
 
+  const handleGetResult = async (electionId) => {
+    try {
+      const response = await getResults(electionId);
+      if(response.status === 200) {
+        // Create a Blob object from the response data
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+
+        // Create a URL for the Blob object
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a temporary link element to trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'candidate_report.pdf';
+
+        // Trigger the download
+        link.click();
+
+        // Clean up the URL and link
+        window.URL.revokeObjectURL(url);
+        link.remove();
+
+        toast.success('Result downloaded successfully')
+      } else {
+        toast.error('Failed to download PDF');
+      }
+    } catch (error) {
+      if(error.response) {
+        toast.error(error.response.data)
+      }
+    }
+  }
+
   const filtered = genre ? candidates.filter(c => c.election._id === genre._id) : candidates;
   
 
@@ -46,14 +81,21 @@ console.log("Candidate with the most votes:", candidateWithMostVotes);
   return (
     <div className="result_container">
       <div className="row">
-        <div className="col-2 mt-2">
-          <div className="fw-lighter mb-0">Sort By Election</div>
-          <ListGroup
-            items={elections}
-            selectedItem={genre}
-            onItemSelect={handleElectionSelect}
-          />
-        </div>
+          <div className="col-2 mt-2">
+            <div className="fw-lighter mb-0">Sort By Election</div>
+            <ListGroup
+              items={elections}
+              selectedItem={genre}
+              onItemSelect={handleElectionSelect}
+            />
+
+            <div className="fw-ligth mt-3">Results</div>
+            <div className="results_container">
+              {elections.map(item => (
+                <button key={item._id} className="btn btn-primary mt-2" onClick={() => handleGetResult(item._id)} >{item.name}</button>
+              ))}
+            </div>
+          </div>
         <div className="col">
           <div className="winner_container">
             {candidateWithMostVotes ? (

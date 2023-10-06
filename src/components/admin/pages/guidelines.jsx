@@ -77,6 +77,7 @@ const ManageAdmin = () => {
 
   return (
     <div className="admin_register">
+      <h3>Add new Admin</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>
