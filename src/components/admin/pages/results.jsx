@@ -90,11 +90,13 @@ console.log("Candidate with the most votes:", candidateWithMostVotes);
             />
 
             <div className="fw-bold mt-3"> Get the Results</div>
-            <select className="form-select mt-2">
+            <div className="mt-2">
               {elections.map(item => (
-                <option key={item._id} className="" onClick={() => handleGetResult(item._id)} >{_.capitalize(item.name)}</option>
+                <button className="btn btn-primary mt-2 btn-sm" key={item._id} onClick={() => handleGetResult(item._id)}>
+                {_.capitalize(item.name)}
+                </button>
               ))}
-            </select>
+            </div>
           </div>
         <div className="col">
           <div className="winner_container">
