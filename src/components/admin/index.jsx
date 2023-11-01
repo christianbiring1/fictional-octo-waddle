@@ -6,11 +6,13 @@ import DashBoard from './dashboard';
 import Elections from "./pages/elections";
 import Candidates from "./pages/candidates";
 import Electors from "./pages/electors";
+import EditElector from "./pages/editElector";
 import Results from "./pages/results";
 // import AdminLogin from "./registration/log_in";
 import AdminLogOut from "./registration/logout";
-import GuideLines from "./pages/guidelines";
+import ManageAdmin from "./pages/guidelines";
 import './index.css';
+// import AdminSignUp from "./registration/sign_up";
 
 
 const Admin = () => {
@@ -32,11 +34,12 @@ const Admin = () => {
         <Routes>
           <Route path="/elections" element={<Elections />}/>
           <Route path="/candidates" element={<Candidates />}/>
+          <Route path="/edit-elector/:user_id" element={<EditElector />}/>
           <Route path="/electors" element={<Electors />}/>
           <Route path="/results" element={<Results />}/>
-          <Route path="/guidelines" element={<GuideLines />} />
+          <Route path="/manage_admins" element={<ManageAdmin />} />
           <Route path="/admin_logout" element={<AdminLogOut />} />
-          <Route path="/" element={<DashBoard/>} />
+          <Route path="/admin_dashboard" element={<DashBoard/>} />
         </Routes>
       </div>
     </div>

@@ -4,19 +4,16 @@ import './styles/elections.css';
 
 
 const Elections = () => {
-
-   const capitalize = (str) => 
-    str.charAt(0).toUpperCase() + str.slice(1);
-
   return (
     <div className="elections__container">
-      <h1>Elections</h1>
-      <div className="row">
-        <div className="col-3">
-          <Position capitalize={capitalize} />
+      <div className="content">
+        <div className='election'>
+        <h3 className='text-primary'>Elections</h3>
+          <Election />
         </div>
-        <div className="col">
-        <Election capitalize={capitalize} />
+        <div className='position'>
+        <h1>Positions</h1>
+          <Position />
         </div>
       </div>
     </div>

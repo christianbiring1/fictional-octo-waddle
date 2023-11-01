@@ -1,11 +1,49 @@
 .user_login {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-family: 'Monserrat', sans-serif;
+  /* background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.25)), url('../../assets/candidates.webp'); */
+    background-size: cover;
+    background-position: center center;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.user_login form {
   width: 30%;
-  margin: 10rem auto;
+  margin: 5rem auto;
   font-size: 1rem;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+form h1 {
+  text-align: center;
+}
+
+.logo_container {
+  width: 40%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.logo_container img {
+  width: 80px;
+  height: 80px;
+  /* border-radius: 50%; */
+}
+
+.user_login .btn {
+  width: 100%;
 }
 
 .error__message {
   font-size: .9rem;
   padding: 0 0.7rem;
-  margin: 0;
+  margin: 2px;
 }

@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import { useOnClickOutside } from '../../common/useonclickoutside';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getElectors, deleteElectors, postElector } from '../../services/electorService';
-import { getElections } from '../../services/electionService';
+import _ from 'lodash';
+import { useOnClickOutside } from '../../common/useonclickoutside';
 import Pagination from '../../common/pagination';
-import ListGroup from '../../common/listGroup';
 import { paginate } from '../../utils/paginate';
+import ListGroup from '../../common/listGroup';
+import SearchBox from '../searchBox';
+import { getElectors, deleteElectors, postElector, postImportElector } from '../../services/electorService';
+import { getElections } from '../../services/electionService';
 import { Delete } from '@mui/icons-material';
-
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import EditIcon from '@mui/icons-material/Edit';
+import './styles/elector.css';
 
 const Electors = () => {
 
@@ -17,14 +22,19 @@ const Electors = () => {
   const [pageSize, setPageSize] = useState(6); // eslint-disable-line
   const [currentPage, setCurrentPage] = useState(1);
   const [genre, setGenre] = useState("");
+  const [importVisible, setImportVisible] = useState(false);
+  const fileRef = useRef();
 
   const nameRef = useRef();
   const idRef = useRef();
   const addressRef = useRef();
-  const electionRef = useRef();
-
-
+  const [selectedElection, setSelectedElection] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  
   const ref = useRef();
+  const navigate = useNavigate();
+
+
   useOnClickOutside(ref, createOpen, () => setCreateOpen(false));
   useEffect(() => {
     async function fetchData() {
@@ -55,6 +65,10 @@ const Electors = () => {
     }
   };
 
+  const handleEdit = (elector) => {
+    navigate(`/edit-elector/${elector._id}`)
+  }
+
   const handlePost = async (e) => {
     e.preventDefault();
 
@@ -62,7 +76,7 @@ const Electors = () => {
       const name = nameRef.current.value;
       const id = idRef.current.value;
       const address = addressRef.current.value;
-      const electionId = electionRef.current.value;
+      const electionId = selectedElection;
       await postElector(name, id, address, electionId);
       window.location = "/electors"
       setCreateOpen(!createOpen);
@@ -72,30 +86,65 @@ const Electors = () => {
     }
   }
 
-  const capitalize = (str) => 
-    str.charAt(0).toUpperCase() + str.slice(1);
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   }
 
   const handleElectionSelect = (election) => {
-    setGenre(election)
+    setGenre(election);
+    setSearchQuery("");
     setCurrentPage(1)
   };
 
-  const filtered = genre && genre._id
-    ? electors.filter(e => e.election._id === genre._id)
-    : electors;
+  const handleSearch = query => {
+    setSearchQuery(query);
+    setGenre(null);
+    setCurrentPage(1);
+  };
+
+  let filtered = electors;
+  if (searchQuery)
+    filtered = electors.filter(e => 
+      e.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      || e.election.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      || e.province.toLowerCase().startsWith(searchQuery.toLowerCase())
+    );
+  else if (genre && genre._id)
+      filtered = electors.filter(e => e.election._id === genre._id);
+
+  // const filtered = genre && genre._id
+  //   ? electors.filter(e => e.election._id === genre._id)
+  //   : electors;
 
   const allElectors = paginate(filtered, currentPage, pageSize);
 
+  const importForm = () => {
+    setImportVisible(!importVisible)
+  }
+
+  const handleImportPost = async (e) => {
+    e.preventDefault();
+    const FILE = fileRef.current.files[0];
+
+    try {
+      await postImportElector(FILE);
+      toast.success('Elector data imported successfully!')
+
+      setTimeout(() => {
+        window.location = "/electors";
+        setImportVisible(!importVisible)
+      }, 2000)
+    } catch (error) {
+      if (error)
+        toast.error(error.response.data)
+    }
+  }
 
   return (
-    <div className="elections__container">
+    <div className="elector__container">
       <div className="row">
-        <div className="col-3">
-          <h5 className='fw-lighter'>Available elections</h5>
+        <div className="col-3 mt-5">
+          <p className='fw-lighter'>Sort By Election</p>
           <ListGroup
             items={elections}
             selectedItem={genre}
@@ -104,42 +153,72 @@ const Electors = () => {
             onItemSelect={handleElectionSelect} 
           />
         </div>
-        <div className="col">
+        <div className="col ms-5">
+          <h3 className='text-primary'>Electors</h3>
           <p>Showing {filtered.length} Electors in the database</p>
-      <div className="create_election">
-        <button className='btn btn-primary btn-sm mb-4 mt-2 add' style={{ padding: '0.7rem', borderRadius: '1.5rem' }} onClick={handleCreateOpen}>Add Elector</button>
-      </div>
-      <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">ID</th>
-              <th scope="col">Province</th>
-              <th scope="col">Election</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {allElectors.map((item) => (
-              <tr key={item._id}>
-                <td scope="row">{capitalize(item.name)}</td>
-                <td scope="row">{item.id}</td>
-                <td scope="row">{capitalize(item.province)}</td>
-                <td scope="row">{capitalize(item.election.name)}</td>
-                <td scope="row">
-                  <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
-                </td>
+          <div className="create_elector">
+            <button className='btn btn-primary mb-3 mt-2 add' onClick={handleCreateOpen}>New Elector</button>
+            <span className='import_zone'>
+              <span className='import-text'>
+                or import .xlsx file
+              </span>
+              <button className='import-data' onClick={importForm}>
+                <UploadFileIcon style={{color: '#333'}} />
+              </button>
+            </span>
+          </div>
+          <SearchBox  value={searchQuery} onChange={handleSearch} placeholder={'Search by name, election or address...'}/>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope='col'>#</th>
+                <th scope="col">Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">Province</th>
+                <th scope="col">Election</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={filtered.length}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
+            </thead>
+              <tbody>
+                {allElectors.map((item, index) => (
+                  <tr key={item._id}>
+                    <td scope="row">{index + 1}</td>
+                    <td scope="row">
+                      <Link to={`/edit-elector/${item._id}`}>
+                      {_.capitalize(item.name)}
+                      </Link>
+                    </td>
+                    <td scope="row">{item.id}</td>
+                    <td scope="row">{_.capitalize(item.province)}</td>
+                    <td scope="row">{_.capitalize(item.election.name)}</td>
+                    <td scope='row'>
+                      <EditIcon onClick={() => handleEdit(item)} style={{cursor: 'pointer', color: 'blue'}}/>  
+                    </td>
+                    <td scope="row">
+                      <Delete onClick={() => handleDelete(item)} style={{cursor: 'pointer', color: "#ff6a74" }} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+          </table>
+            <Pagination
+              itemsCount={filtered.length}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
         </div>
+      </div>
+      <div className={!importVisible ? 'import_form-container': 'import_form-container active'}>
+        <form method='POST' onSubmit={handleImportPost} className={!importVisible ? 'import_form': 'import_form active'} encType="multipart/form-data">
+        <button type='button' className='import-btn' onClick={importForm}>X</button>
+          <div className="mb-1">
+            <label htmlFor="file" className='form-label'>Import Elector details*</label><br />
+            <input type="file"  name="file"  className='form-control-file' id='file' ref={fileRef} accept='.xlsx' required/><br />
+          </div>
+          <button type='submit' className="btn btn-primary">Upload</button>
+        </form>
       </div>
         {
         createOpen && 
@@ -160,11 +239,11 @@ const Electors = () => {
           </div>
           <div className="mb-1">
             <label htmlFor="position" className="form-label">Election</label>
-            <select className="form-select">
+            <select className="form-select" value={selectedElection} onChange={(e) => setSelectedElection(e.target.value)}>
               <option className="fw-lighter" value={""}>select an election</option>
               {elections.map((e) => (
                 <>
-                  <option key={e._id} value={e._id} ref={electionRef}>{capitalize(e.name)}</option>
+                  <option key={e._id} value={e._id}>{_.capitalize(e.name)}</option>
                 </>
               ))}
             </select>

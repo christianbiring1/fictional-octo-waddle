@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import PropTypes from 'prop-types';
 
 const ListGroup = (props) => {
@@ -10,7 +11,7 @@ const ListGroup = (props) => {
           onClick={() => onItemSelect(item)} 
           className={item === selectedItem ? "list-group-item active" : "list-group-item"}
         >
-          {item[textProperty]}
+          {_.capitalize(item[textProperty])}
         </li>
       ))}
     </ul>
@@ -26,7 +27,7 @@ ListGroup.propTypes = {
   items: PropTypes.array.isRequired,
   textProperty: PropTypes.string.isRequired,
   valueProperty: PropTypes.string.isRequired,
-  selectedItem: PropTypes.string.isRequired,
+  selectedItem: PropTypes.string,
   onItemSelect: PropTypes.func.isRequired
 }
  

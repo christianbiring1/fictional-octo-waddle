@@ -1,20 +1,23 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Joi from 'joi-browser';
 import { toast } from "react-toastify";
 import { voteLogin } from "../services/authService";
+import logo from '../../assets/logo.png';
 import './login.css'
 
 
 const UserLogin = () => {
 
   const [account, setAccount] = useState({
-    name: "",
+    // name: "",
     user_id: "",
   });
   const [allErrors, setAllErrors] = useState({});
+  const navigate = useNavigate();
 
   const schema = {
-    name: Joi.string().required(),
+    // name: Joi.string().required().label("Name"),
     user_id: Joi.string().trim().min(10).required().label('ID')
   }
 
@@ -54,12 +57,12 @@ const UserLogin = () => {
 
     // Call the server
     try {
-      const {name, user_id} = account;
-      // console.log(data);
-      const { data } = await voteLogin(name, user_id);
+      const {user_id} = account;
+      const { data } = await voteLogin(user_id);
       console.log(data);
-      localStorage.setItem('electorInfo', JSON.stringify(data))
-      window.location = "/user"
+      localStorage.setItem('electorInfo', JSON.stringify(data));
+
+      // window.location = "/user";
     } catch (error) {
       if (error.response && error.response.status === 400)
       toast.error(error.response.data);
@@ -67,25 +70,19 @@ const UserLogin = () => {
     errors.name = error.response.data;
       setAllErrors(errors);
     }
+    
+    const user = JSON.parse(localStorage.getItem('electorInfo'));
+    if (user) navigate(`/user/${user._id}`);
   };
 
   return (
     <div className="user_login">
       <form onSubmit={handleSubmit}>
-        <div className="">
-          <label htmlFor="name" className="form-label">Name</label>
-          <input
-            type="text"
-            value={account.name}
-            onChange={handleChange}
-            className="form-control"
-            name="name"
-            id="name"
-            autoFocus
-          />
-        {allErrors.name && <div className="text-danger error__message">{allErrors.name}</div>}   
+        <h1 className="text-primary">Elector Login</h1>
+        <div className="logo_container">
+          <img src={logo} alt="" />
         </div>
-        <div className="">
+        <div className="mb-2">
           <label htmlFor="userId" className="form-label">ID number</label>
           <input
             type="text"
@@ -97,9 +94,9 @@ const UserLogin = () => {
             placeholder="000 - 000 - 000"
           />
           <div id="emailHelp" className="form-text">We&apos;ll never share your ID with anyone else.</div>
+          {allErrors.user_id && <div className="text-danger error__message">{allErrors.user_id}</div>}
         </div>
-        {allErrors.user_id && <div className="text-danger error__message">{allErrors.user_id}</div>}
-        <button type="submit" className="btn btn-primary mt-3">Login</button>
+        <button type="submit" disabled={validate()} className="btn btn-primary mt-3">Login</button>
       </form>
     </div>
   );

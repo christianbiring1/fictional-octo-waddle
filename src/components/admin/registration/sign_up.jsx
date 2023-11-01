@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import Joi from "joi-browser";
 import { register } from "../../services/userService";
 import { toast } from "react-toastify";
+// import './admin-register.css';
 
 const AdminSignUp = () => {
   const [account, setAccount] = useState({
@@ -57,7 +57,7 @@ const AdminSignUp = () => {
     try {
       const response = await register(account);
       localStorage.setItem("token", response.headers["x-auth-token"]);
-      window.location = "/";
+      window.location = "/admin_dashboard";
     } catch (error) {
       if (error.response && error.response.status === 400) {
         toast.info(error.response.data);
@@ -111,9 +111,8 @@ const AdminSignUp = () => {
           />
         </div>
         {allErrors.password && <div className="text-danger error__message">{allErrors.password}</div>}
-        <button type="submit" className="btn btn-primary">Register</button>
+        <button type="submit" className="btn btn-primary" disabled={validate()}>Register</button>
       </form>
-      <div>Already have an account? <Link to="/admin_login">LogIn</Link></div>
     </div>
   );
 }

@@ -1,13 +1,16 @@
 import { useEffect, useState, useRef } from "react";
-import PropTypes from 'prop-types';
+import _ from 'lodash';
 import { toast } from "react-toastify";
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS } from 'chart.js/auto'; // eslint-disable-line
 import { useOnClickOutside } from '../../common/useonclickoutside';
+import { getElectors } from "../../services/electorService";
 import { getElections, deleteElection, postElection } from '../../services/electionService';
 
-const Election = (props) => {
-  const { capitalize } = props; //eslint-disable-line
+const Election = () => {
   
   const [elections, setElections] = useState([]);
+  const [electors, setElectors] = useState([]);
   const [createOpen, setCreateOpen] = useState(false);
 
   const ref = useRef();
@@ -18,7 +21,9 @@ const Election = (props) => {
 
     async function fetchData() {
       const { data } = await getElections();
+      const { data: electors } = await getElectors();
       setElections(data);
+      setElectors(electors);
     }
     fetchData();
   }, []);
@@ -58,19 +63,33 @@ const Election = (props) => {
     }
   }
 
+  const electorsData = {
+    labels : elections.map(e => _.capitalize(e.name)),
+    datasets: [
+      {
+        label: 'Number of Electors',
+        data: elections.map(election =>
+          electors.filter(elector => elector.election._id === election._id).length),
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: '#333',
+          borderWidth: 2
+      },
+    ],
+  };
+
 
   return (
     <div>
       <button className='btn btn-primary btn-sm mb-4 mt-2 add'
-          style={{ padding: '0.7rem', borderRadius: '1.5rem' }}
           onClick={handleCreateOpen}
           >
-            Create New Election
+            New Election
         </button>
       <table className="table">
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Election ID</th>
             <th scope="col">Name</th>
             <th scope="col">Date</th>
             <th scope="col"></th>
@@ -80,7 +99,8 @@ const Election = (props) => {
           {elections.map((item, index) => (
             <tr key={item._id}>
               <td scope="row">{index + 1}</td>
-              <td scope="row">{item.name.toUpperCase()}</td>
+              <td scope="row">{item._id}</td>
+              <td scope="row">{_.capitalize(item.name)}</td>
               <td scope="row">{item.date}</td>
               <td scope="row">
                 <button onClick={() => handleDelete(item)}
@@ -93,6 +113,9 @@ const Election = (props) => {
           ))}
         </tbody>
       </table>
+      <div>
+        <Bar data={electorsData} />
+      </div>
       {
         createOpen && 
       <div className="create__form">
@@ -123,7 +146,4 @@ const Election = (props) => {
   );
 }
  
-Election.propTypes = {
-  capitalize: PropTypes.func.isRequired
-}
 export default Election;
