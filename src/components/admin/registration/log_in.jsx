@@ -16,7 +16,8 @@ const AdminLogin = () => {
 
   const schema = {
     email: Joi.string().email().required().label("Email"),
-    password: Joi.string().required().label("Password")
+    password: Joi.string().required().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 
+      'password')
   }
 
   const validate = () => {
